@@ -107,6 +107,7 @@ public class ParserDefault extends AsyncTask<URL,Void,Void>{
                                     eventType = xpp.next();
                                 }
                             }
+                            newItem.setSource("L'Express");
                             NewsItems.getSingletonInstance().addLexpressItem(newItem);
                         }
                     }

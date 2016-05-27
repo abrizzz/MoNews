@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private ArrayAdapter<NewsItem> newsAdapter;
+    private ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Set Layout
@@ -56,9 +57,9 @@ public class MainActivity extends AppCompatActivity
         getNewsItems();
 
         //Set list adapter
-        ListView list = (ListView) findViewById(R.id.list_view);
+        listView = (ListView) findViewById(R.id.list_view);
         newsAdapter = new NewsArrayAdapter(this);
-        list.setAdapter(newsAdapter);
+        listView.setAdapter(newsAdapter);
     }
 
     @Override
@@ -84,8 +85,6 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-
         return super.onOptionsItemSelected(item);
     }
 

@@ -1,12 +1,17 @@
 package abrizzz.monews.viewcontroller;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.net.URI;
 import java.util.List;
 
 import abrizzz.monews.R;
@@ -39,14 +44,22 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        NewsItem n = singletonInstance.getLexpressItemsAsList().get(position);
+        final NewsItem n = singletonInstance.getLexpressItemsAsList().get(position);
         View rowView = inflater.inflate(R.layout.list_item, parent, false);
         TextView titleView = (TextView) rowView.findViewById(R.id.firstLine);
         TextView descriptionView = (TextView) rowView.findViewById(R.id.secondLine);
         ImageView thumbnailView = (ImageView) rowView.findViewById(R.id.thumbnail);
         titleView.setText(n.getTitle());
-        descriptionView.setText(n.getDescription());
+        descriptionView.setText(n.getSource());
         thumbnailView.setImageResource(R.drawable.ic_menu_camera);
+        rowView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(n.getLink().toString()));
+                context.startActivity(browserIntent);
+            }
+        });
+
         return rowView;
     }
 }
