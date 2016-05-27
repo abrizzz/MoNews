@@ -71,4 +71,9 @@ public abstract class NewsItem {
     public void setSource(String source) {
         this.source = source;
     }
+
+    public String toString()
+    {
+        return this.title;
+    }
 }

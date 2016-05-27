@@ -63,10 +63,8 @@ public class MainActivity extends AppCompatActivity
 
         //Set list adapter
         ListView list = (ListView) findViewById(R.id.list_view);
-        newsAdapter = new NewsArrayAdapter(this,0,NewsItems.getSingletonInstance().getLexpressItemsAsList());
+        newsAdapter = new NewsArrayAdapter(this);
         list.setAdapter(newsAdapter);
-
-
     }
 
     @Override
@@ -75,8 +73,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            //super.onBackPressed();
-            newsAdapter.notifyDataSetChanged();;
+            super.onBackPressed();
         }
     }
 

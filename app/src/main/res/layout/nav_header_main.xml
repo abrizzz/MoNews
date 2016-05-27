@@ -18,12 +18,15 @@
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="MoNews"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:layout_weight="0.1" />
+        android:layout_weight="0.1"
+        android:textStyle="bold" />
 
     <TextView
         android:text="The latest headlines from Mauritius"
         android:typeface="normal"
         android:textColor="#FFFFFF"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:password="false"
+        android:phoneNumber="false" />
 </LinearLayout>

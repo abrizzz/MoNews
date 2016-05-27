@@ -7,11 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.List;
 
 import abrizzz.monews.R;
 import abrizzz.monews.model.NewsItem;
+import abrizzz.monews.model.NewsItems;
 
 /**
  * Created by brizzz on 4/30/16.
@@ -19,6 +19,7 @@ import abrizzz.monews.model.NewsItem;
 public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
     private Context context;
     private LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    private NewsItems singletonInstance = NewsItems.getSingletonInstance();
 
     private static class ViewContentHolder{
         public TextView titleTextView;
@@ -26,30 +27,26 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
         public TextView subtitleTextView;
     }
 
-    public NewsArrayAdapter(Context c, int textViewResourceId, List<NewsItem> objects)
-    {
-        super(c,textViewResourceId,objects);
-        this.context = c;
+   public NewsArrayAdapter(Context context) {
+        super(context,R.layout.list_item);
+        this.context = context;
     }
 
-    public View getView(int position, View inflatedView, ViewGroup parent)
-    {
-        NewsItem n = getItem(position);
-        if(inflatedView == null)
-        {
-            ViewContentHolder holder = new ViewContentHolder();
-            inflatedView = inflater.inflate(R.layout.list_item,parent,false);
-            holder.titleTextView = (TextView) inflatedView.findViewById(R.id.firstLine);
-            holder.subtitleTextView = (TextView) inflatedView.findViewById(R.id.secondLine);
-            holder.thumbnailImageView = (ImageView) inflatedView.findViewById(R.id.thumbnail);
-        }
+    @Override
+    public int getCount() {
+        return singletonInstance.getLexpressItemsAsList().size();
+    }
 
-        ViewContentHolder holder = (ViewContentHolder) inflatedView.getTag();
-
-        holder.titleTextView.setText(n.getTitle());
-        holder.subtitleTextView.setText(n.getDescription());
-        //set imageview to thunmbnail
-        //set onclick listener
-        return inflatedView;
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        NewsItem n = singletonInstance.getLexpressItemsAsList().get(position);
+        View rowView = inflater.inflate(R.layout.list_item, parent, false);
+        TextView titleView = (TextView) rowView.findViewById(R.id.firstLine);
+        TextView descriptionView = (TextView) rowView.findViewById(R.id.secondLine);
+        ImageView thumbnailView = (ImageView) rowView.findViewById(R.id.thumbnail);
+        titleView.setText(n.getTitle());
+        descriptionView.setText(n.getDescription());
+        thumbnailView.setImageResource(R.drawable.ic_menu_camera);
+        return rowView;
     }
 }
