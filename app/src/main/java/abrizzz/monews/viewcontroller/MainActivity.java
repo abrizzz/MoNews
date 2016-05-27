@@ -9,18 +9,25 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import java.net.URL;
+
 import abrizzz.monews.R;
+import abrizzz.monews.model.NewsItem;
+import abrizzz.monews.model.NewsItems;
+import abrizzz.monews.utils.ParserDefault;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private SwipeRefreshLayout swipeRefreshLayout;
+    private ArrayAdapter<NewsItem> newsAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Set Layout
@@ -43,11 +50,21 @@ public class MainActivity extends AppCompatActivity
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
         swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#F44336"), Color.parseColor("#2196F3"), Color.parseColor("#FFC107"),Color.parseColor("#4CAF50"));
 
+        ParserDefault pd = new ParserDefault();
+        URL lexpress_url = null;
+        try {
+            lexpress_url = new URL(getResources().getString(R.string.lexpress_source));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        pd.execute(lexpress_url);
+
         //Set list adapter
-        String[] foods = {"X", "Y", "Z", "Bacon", "Ham", "Tuna", "Candy", "A", "B", "C"};
-        ListAdapter adap = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,foods);
         ListView list = (ListView) findViewById(R.id.list_view);
-        list.setAdapter(adap);
+        newsAdapter = new NewsArrayAdapter(this,0,NewsItems.getSingletonInstance().getLexpressItemsAsList());
+        list.setAdapter(newsAdapter);
 
 
     }
@@ -58,7 +75,8 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
+            newsAdapter.notifyDataSetChanged();;
         }
     }
 
