@@ -1,5 +1,6 @@
 package abrizzz.monews.utils;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.text.Html;
 import android.util.Log;
@@ -19,12 +20,14 @@ import java.util.GregorianCalendar;
 import abrizzz.monews.model.LexpressNewsItem;
 import abrizzz.monews.model.NewsItem;
 import abrizzz.monews.model.NewsItems;
+import abrizzz.monews.viewcontroller.MainActivity;
 
 /**
  * Created by brizzz on 4/27/16.
  */
 public class ParserDefault extends AsyncTask<URL,Void,Void>{
 
+    private Activity activity;
     private String item = "item";
     private String title = "title";
     private String link = "link";
@@ -34,6 +37,11 @@ public class ParserDefault extends AsyncTask<URL,Void,Void>{
     private boolean done;
     private String format = "EEE, d MMM yyyy HH:mm:ss ZZZZZ";
     private String tmp = "";
+
+    public ParserDefault(Activity a)
+    {
+        this.activity = a;
+    }
 
     @Override
     protected Void doInBackground(URL... params) {
@@ -123,6 +131,8 @@ public class ParserDefault extends AsyncTask<URL,Void,Void>{
 
     @Override
     protected void onPostExecute(Void aVoid) {
+        MainActivity ma = (MainActivity)activity;
+        ma.updateList();
         super.onPostExecute(aVoid);
     }
 }

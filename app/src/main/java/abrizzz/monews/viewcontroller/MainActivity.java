@@ -49,17 +49,11 @@ public class MainActivity extends AppCompatActivity
         //Set Pull to refresh colors
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
         swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#F44336"), Color.parseColor("#2196F3"), Color.parseColor("#FFC107"),Color.parseColor("#4CAF50"));
+        swipeRefreshLayout.measure(1,1); //workaround to make animation show at when loading first time
+        swipeRefreshLayout.setRefreshing(true);
 
-        ParserDefault pd = new ParserDefault();
-        URL lexpress_url = null;
-        try {
-            lexpress_url = new URL(getResources().getString(R.string.lexpress_source));
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-        pd.execute(lexpress_url);
+        // Get news articles async
+        getNewsItems();
 
         //Set list adapter
         ListView list = (ListView) findViewById(R.id.list_view);
@@ -104,5 +98,25 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void updateList()
+    {
+        newsAdapter.notifyDataSetChanged();
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    public void getNewsItems()
+    {
+        ParserDefault pd = new ParserDefault(this);
+        URL lexpress_url = null;
+        try {
+            lexpress_url = new URL(getResources().getString(R.string.lexpress_source));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        pd.execute(lexpress_url);
     }
 }
