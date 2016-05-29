@@ -1,10 +1,10 @@
 package abrizzz.monews.viewcontroller;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.util.Log;
+import android.support.customtabs.CustomTabsIntent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.net.URI;
-import java.util.List;
 
 import abrizzz.monews.R;
 import abrizzz.monews.model.NewsItem;
@@ -55,13 +51,19 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
         TextView sourceColor = (TextView) rowView.findViewById(R.id.sourceColor);
         titleView.setText(n.getTitle());
         descriptionView.setText(n.getSource());
-        thumbnailView.setImageResource(R.drawable.ic_menu_camera);
+        thumbnailView.setImageDrawable(null);
+        thumbnailView.setVisibility(View.GONE);
         sourceColor.setBackgroundResource(R.color.lexpressBlue);
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(n.getLink().toString()));
-                context.startActivity(browserIntent);
+                //Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(n.getLink().toString()));
+                //context.startActivity(browserIntent);
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                CustomTabsIntent customTabsIntent = builder.build();
+                builder.setToolbarColor(context.getResources().getColor(R.color.lexpressBlue));
+                Activity thisActivity = (Activity) context;
+                customTabsIntent.launchUrl(thisActivity,Uri.parse(n.getLink().toString()));
             }
         });
 
