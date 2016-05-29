@@ -58,14 +58,14 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
         descriptionView.setText(n.getSource());
         thumbnailView.setImageDrawable(null);
         thumbnailView.setVisibility(View.GONE);
-        sourceColor.setBackgroundResource(R.color.lexpressBlue);
+        sourceColor.setBackgroundResource(R.color.lexpressPrimary);
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 n.setRead(true);
                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
                 CustomTabsIntent customTabsIntent = builder.build();
-                builder.setToolbarColor(context.getResources().getColor(R.color.lexpressBlue));
+                builder.setToolbarColor(context.getResources().getColor(R.color.lexpressPrimary));
                 Activity thisActivity = (Activity) context;
                 customTabsIntent.launchUrl(thisActivity,Uri.parse(n.getLink().toString()));
             }

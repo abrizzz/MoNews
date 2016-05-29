@@ -9,19 +9,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.net.URL;
 
 import abrizzz.monews.R;
 import abrizzz.monews.model.NewsItem;
-import abrizzz.monews.model.NewsItems;
-import abrizzz.monews.utils.ParserDefault;
+import abrizzz.monews.utils.ParserDefi;
+import abrizzz.monews.utils.ParserLexpress;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -107,16 +105,10 @@ public class MainActivity extends AppCompatActivity
 
     public void getNewsItems()
     {
-        ParserDefault pd = new ParserDefault(this);
-        URL lexpress_url = null;
-        try {
-            lexpress_url = new URL(getResources().getString(R.string.lexpress_source));
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-        pd.execute(lexpress_url);
+        ParserLexpress pe = new ParserLexpress(this);
+        pe.execute();
+        ParserDefi pd = new ParserDefi(this);
+        pd.execute();
     }
 
     @Override

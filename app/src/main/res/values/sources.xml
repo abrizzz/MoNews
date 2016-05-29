@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="lexpress_source">http://www.lexpress.mu/rss.xml</string>
+    <string name="defi_source">http://defimedia.info/feed/</string>
+    <string name="ion_source">http://ionnews.mu/feed/</string>
+    <string name="mauricien_source">http://www.lemauricien.com/rss/articles/all</string>
 </resources>

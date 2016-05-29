@@ -10,15 +10,19 @@
 
                 <item
                     android:id="@+id/nav_lexpress"
-                    android:title="L'Express" />
-
-                <item
-                    android:id="@+id/nav_lexpress_vid"
-                    android:title="L'Express Video"  />
+                    android:title="@string/lexpress" />
 
                 <item
                     android:id="@+id/nav_defi"
-                    android:title="Le Defi" />
+                    android:title="@string/defi" />
+
+                <item
+                    android:id="@+id/nav_ion"
+                    android:title="@string/ion" />
+
+                <item
+                    android:id="@+id/nav_mauricien"
+                    android:title="@string/mauricien" />
 
             </menu>
 

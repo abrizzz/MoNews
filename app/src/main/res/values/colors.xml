@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#F44336</color>
-    <color name="colorPrimaryDark">#D32F2F</color>
-    <color name="colorAccent">#2196F3</color>
-    <color name="lexpressBlue">#004A8F</color>
+    <color name="colorPrimary">#607D8B</color>
+    <color name="colorPrimaryDark">#455A64</color>
+    <color name="colorAccent">#03A9F4</color>
+    <color name="lexpressPrimary">#004A8F</color>
+    <color name="defiPrimary">#DD3333</color>
+    <color name="ionPrimary">#BBB7B6</color>
+    <color name="mauricienPrimary">#000000</color>
 </resources>

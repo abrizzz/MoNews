@@ -9,9 +9,9 @@ import abrizzz.monews.R;
  * Created by brizzz on 4/27/16.
  */
 public class LexpressNewsItem extends NewsItem{
-    public LexpressNewsItem(String title, URL link, GregorianCalendar datePublished, String creator, String description)
+    public LexpressNewsItem(String title, URL link, GregorianCalendar datePublished, String creator, String description, String source)
     {
-        super(title,link,datePublished,creator,description, "L'express");
+        super(title,link,datePublished,creator,description, source);
     }
 
     public LexpressNewsItem()
