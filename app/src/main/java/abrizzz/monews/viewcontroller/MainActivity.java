@@ -118,4 +118,10 @@ public class MainActivity extends AppCompatActivity
         }
         pd.execute(lexpress_url);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        newsAdapter.notifyDataSetChanged();
+    }
 }

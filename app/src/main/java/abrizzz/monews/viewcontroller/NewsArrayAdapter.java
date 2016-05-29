@@ -3,6 +3,7 @@ package abrizzz.monews.viewcontroller;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
 import android.view.LayoutInflater;
@@ -50,6 +51,10 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
         ImageView thumbnailView = (ImageView) rowView.findViewById(R.id.thumbnail);
         TextView sourceColor = (TextView) rowView.findViewById(R.id.sourceColor);
         titleView.setText(n.getTitle());
+        if(n.getRead())
+        {
+            titleView.setTypeface(null, Typeface.NORMAL);
+        }
         descriptionView.setText(n.getSource());
         thumbnailView.setImageDrawable(null);
         thumbnailView.setVisibility(View.GONE);
@@ -57,8 +62,7 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(n.getLink().toString()));
-                //context.startActivity(browserIntent);
+                n.setRead(true);
                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
                 CustomTabsIntent customTabsIntent = builder.build();
                 builder.setToolbarColor(context.getResources().getColor(R.color.lexpressBlue));

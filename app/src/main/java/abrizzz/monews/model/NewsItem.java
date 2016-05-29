@@ -17,6 +17,7 @@ public abstract class NewsItem {
     }
 
     public NewsItem(String title, URL link, GregorianCalendar datePublished, String creator, String description, String src) {
+        this();
         this.title = title;
         this.link = link;
         this.datePublished = datePublished;
@@ -75,7 +76,7 @@ public abstract class NewsItem {
     }
 
     public Boolean getRead() {
-        return read;
+        return this.read;
     }
 
     public void setRead(Boolean read) {
