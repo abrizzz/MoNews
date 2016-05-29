@@ -10,6 +10,7 @@ public abstract class NewsItem {
     private String creator;
     private String description;
     private String source;
+    private Boolean read;
 
     public NewsItem() {
         super();
@@ -22,6 +23,7 @@ public abstract class NewsItem {
         this.creator = creator;
         this.description = description;
         this.source = src;
+        this.read = false;
     }
 
     public String getTitle() {
@@ -70,6 +72,14 @@ public abstract class NewsItem {
 
     public void setSource(String source) {
         this.source = source;
+    }
+
+    public Boolean getRead() {
+        return read;
+    }
+
+    public void setRead(Boolean read) {
+        this.read = read;
     }
 
     public String toString()

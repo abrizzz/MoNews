@@ -3,6 +3,16 @@
     android:layout_height="?android:attr/listPreferredItemHeightLarge"
     android:padding="6dip" >
 
+    <TextView
+        android:layout_width="3dip"
+        android:layout_height="match_parent"
+        android:text=""
+        android:id="@+id/sourceColor"
+        android:layout_alignTop="@+id/thumbnail"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#ffffff"/>
+
     <ImageView
         android:id="@+id/thumbnail"
         android:layout_width="?android:attr/listPreferredItemHeightLarge"
@@ -10,7 +20,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="6dip"
-        android:src="@drawable/ic_menu_gallery"/>
+        android:layout_toRightOf="@id/sourceColor"
+        android:src="@drawable/ic_menu_gallery" />
 
     <TextView
         android:id="@+id/secondLine"

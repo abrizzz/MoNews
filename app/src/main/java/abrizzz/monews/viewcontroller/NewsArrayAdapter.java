@@ -2,6 +2,7 @@ package abrizzz.monews.viewcontroller;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.net.URI;
 import java.util.List;
@@ -49,9 +52,11 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
         TextView titleView = (TextView) rowView.findViewById(R.id.firstLine);
         TextView descriptionView = (TextView) rowView.findViewById(R.id.secondLine);
         ImageView thumbnailView = (ImageView) rowView.findViewById(R.id.thumbnail);
+        TextView sourceColor = (TextView) rowView.findViewById(R.id.sourceColor);
         titleView.setText(n.getTitle());
         descriptionView.setText(n.getSource());
         thumbnailView.setImageResource(R.drawable.ic_menu_camera);
+        sourceColor.setBackgroundResource(R.color.lexpressBlue);
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
