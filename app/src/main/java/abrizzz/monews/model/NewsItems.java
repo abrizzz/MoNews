@@ -32,6 +32,13 @@ public class NewsItems {
         return singleton;
     }
 
+    public List<NewsItem> getAllItemsAsList()
+    {
+        List<NewsItem> l = lexpressItems;
+        l.addAll(defiItems);
+        return l;
+    }
+
     public void addLexpressItem(NewsItem n) {
         lexpressItems.add(n);
     }

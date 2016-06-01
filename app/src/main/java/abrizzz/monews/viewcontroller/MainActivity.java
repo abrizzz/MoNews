@@ -9,17 +9,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.net.URL;
-
 import abrizzz.monews.R;
 import abrizzz.monews.model.NewsItem;
 import abrizzz.monews.utils.ParserDefi;
 import abrizzz.monews.utils.ParserLexpress;
+import abrizzz.monews.viewcontroller.viewmodel.NewsArrayAdapter;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -27,6 +27,9 @@ public class MainActivity extends AppCompatActivity
     private SwipeRefreshLayout swipeRefreshLayout;
     private ArrayAdapter<NewsItem> newsAdapter;
     private ListView listView;
+    public Boolean lexpressDone;
+    public Boolean defiDone;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Set Layout
@@ -66,7 +69,8 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
+            this.updateList();
         }
     }
 
@@ -99,16 +103,20 @@ public class MainActivity extends AppCompatActivity
 
     public void updateList()
     {
-        newsAdapter.notifyDataSetChanged();
-        swipeRefreshLayout.setRefreshing(false);
+        if(lexpressDone && defiDone){
+            newsAdapter.notifyDataSetChanged();
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     public void getNewsItems()
     {
+        lexpressDone = false;
         ParserLexpress pe = new ParserLexpress(this);
         pe.execute();
-        ParserDefi pd = new ParserDefi(this);
-        pd.execute();
+        defiDone=true;
+        //ParserDefi pd = new ParserDefi(this);
+        //pd.execute();
     }
 
     @Override

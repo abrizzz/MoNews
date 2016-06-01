@@ -97,7 +97,7 @@ public class ParserDefi extends AsyncTask<Void,Void,Void>{
                             }
                             else
                             {
-                                Log.i("parser","Unrecognised tag: "+xpp.getName());
+                                //Log.i("parser","Unrecognised tag: "+xpp.getName());
                             }
                             if (done == false)
                             {
@@ -130,6 +130,7 @@ public class ParserDefi extends AsyncTask<Void,Void,Void>{
     @Override
     protected void onPostExecute(Void aVoid) {
         MainActivity ma = (MainActivity)activity;
+        ma.defiDone = true;
         ma.updateList();
         super.onPostExecute(aVoid);
     }
