@@ -113,6 +113,8 @@ public class MainActivity extends AppCompatActivity
 
     public void updateList()
     {
+        NewsArrayAdapter n = (NewsArrayAdapter) newsAdapter;
+        n.updateAllList();
         newsAdapter.notifyDataSetChanged();
         swipeRefreshLayout.setRefreshing(false);
     }

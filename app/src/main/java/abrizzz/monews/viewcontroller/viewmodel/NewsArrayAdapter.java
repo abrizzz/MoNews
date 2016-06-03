@@ -38,16 +38,22 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
    public NewsArrayAdapter(Context context) {
         super(context,R.layout.list_item);
         this.context = context;
+        updateAllList();
     }
 
+    public void updateAllList()
+    {
+        list = singletonInstance.getAllItemsAsList();
+    }
     @Override
     public int getCount() {
-        return singletonInstance.getAllItemsAsList().size();
+        return list.size();
     }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final NewsItem n = singletonInstance.getAllItemsAsList().get(position);
+        final NewsItem n = list.get(position);
         View rowView = inflater.inflate(R.layout.list_item, parent, false);
         TextView titleView = (TextView) rowView.findViewById(R.id.firstLine);
         TextView descriptionView = (TextView) rowView.findViewById(R.id.secondLine);
