@@ -3,6 +3,7 @@ package abrizzz.monews.viewcontroller.viewmodel;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
@@ -41,12 +42,12 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
 
     @Override
     public int getCount() {
-        return singletonInstance.getDefiItemsAsList().size();
+        return singletonInstance.getAllItemsAsList().size();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final NewsItem n = singletonInstance.getDefiItemsAsList().get(position);
+        final NewsItem n = singletonInstance.getAllItemsAsList().get(position);
         View rowView = inflater.inflate(R.layout.list_item, parent, false);
         TextView titleView = (TextView) rowView.findViewById(R.id.firstLine);
         TextView descriptionView = (TextView) rowView.findViewById(R.id.secondLine);

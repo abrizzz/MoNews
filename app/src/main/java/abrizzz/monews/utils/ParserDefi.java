@@ -15,8 +15,10 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import abrizzz.monews.R;
 import abrizzz.monews.model.DefiNewsItem;
@@ -49,6 +51,7 @@ public class ParserDefi extends AsyncTask<Void,Void,Void>{
     @Override
     protected Void doInBackground(Void... params) {
         NewsItem newItem = null;
+        List<NewsItem> tmpList = new ArrayList<NewsItem>();
         try{
             URL u = new URL(activity.getResources().getString(R.string.defi_source));
             URLConnection conn = u.openConnection();
@@ -106,11 +109,12 @@ public class ParserDefi extends AsyncTask<Void,Void,Void>{
                         }
                         newItem.setSource(activity.getResources().getString(R.string.defi));
                         newItem.setRead(false);
-                        NewsItems.getSingletonInstance().addDefiItem(newItem);
+                        tmpList.add(newItem);
                     }
                 }
                 eventType = xpp.next();
             }
+            NewsItems.getSingletonInstance().addDefiList(tmpList);
         }
         catch(XmlPullParserException e)
         {
