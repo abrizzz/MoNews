@@ -129,7 +129,6 @@ public class ParserLexpress extends AsyncTask<Void,Void,Void>{
     @Override
     protected void onPostExecute(Void aVoid) {
         MainActivity ma = (MainActivity)activity;
-        ma.lexpressDone = true;
         ma.updateList();
         super.onPostExecute(aVoid);
     }

@@ -17,6 +17,7 @@ import android.widget.ListView;
 
 import abrizzz.monews.R;
 import abrizzz.monews.model.NewsItem;
+import abrizzz.monews.model.NewsItems;
 import abrizzz.monews.utils.ParserDefi;
 import abrizzz.monews.utils.ParserLexpress;
 import abrizzz.monews.viewcontroller.viewmodel.NewsArrayAdapter;
@@ -27,8 +28,7 @@ public class MainActivity extends AppCompatActivity
     private SwipeRefreshLayout swipeRefreshLayout;
     private ArrayAdapter<NewsItem> newsAdapter;
     private ListView listView;
-    public Boolean lexpressDone;
-    public Boolean defiDone;
+    private NewsItems singleton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +48,21 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        singleton = NewsItems.getSingletonInstance();
+
         //Set Pull to refresh colors
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
         swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#F44336"), Color.parseColor("#2196F3"), Color.parseColor("#FFC107"),Color.parseColor("#4CAF50"));
         swipeRefreshLayout.measure(1,1); //workaround to make animation show at when loading first time
         swipeRefreshLayout.setRefreshing(true);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                singleton.clearDefiItems();
+                singleton.clearLexpressItems();
+                getNewsItems();
+            }
+        });
 
         // Get news articles async
         getNewsItems();
@@ -103,20 +113,16 @@ public class MainActivity extends AppCompatActivity
 
     public void updateList()
     {
-        if(lexpressDone && defiDone){
-            newsAdapter.notifyDataSetChanged();
-            swipeRefreshLayout.setRefreshing(false);
-        }
+        newsAdapter.notifyDataSetChanged();
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     public void getNewsItems()
     {
-        lexpressDone = false;
         ParserLexpress pe = new ParserLexpress(this);
         pe.execute();
-        defiDone=true;
-        //ParserDefi pd = new ParserDefi(this);
-        //pd.execute();
+        ParserDefi pd = new ParserDefi(this);
+        pd.execute();
     }
 
     @Override

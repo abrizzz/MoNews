@@ -41,12 +41,12 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
 
     @Override
     public int getCount() {
-        return singletonInstance.getLexpressItemsAsList().size();
+        return singletonInstance.getDefiItemsAsList().size();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final NewsItem n = singletonInstance.getLexpressItemsAsList().get(position);
+        final NewsItem n = singletonInstance.getDefiItemsAsList().get(position);
         View rowView = inflater.inflate(R.layout.list_item, parent, false);
         TextView titleView = (TextView) rowView.findViewById(R.id.firstLine);
         TextView descriptionView = (TextView) rowView.findViewById(R.id.secondLine);
