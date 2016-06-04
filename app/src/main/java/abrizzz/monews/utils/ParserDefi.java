@@ -83,6 +83,7 @@ public class ParserDefi extends AsyncTask<Void,Void,Void>{
                             } else if (xpp.getName().equals(description)) {
                                 if (tmp != null)
                                 {
+                                    Log.i("MoMews",tmp);
                                     tmp = Html.fromHtml(tmp).toString();
                                     newItem.setDescription(tmp);
                                 }

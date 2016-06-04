@@ -1,8 +1,10 @@
 package abrizzz.monews.viewcontroller.viewmodel;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -13,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 
 import java.util.List;
 
@@ -73,10 +74,27 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
             @Override
             public void onClick(View v) {
                 n.setRead(true);
-                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                CustomTabsIntent customTabsIntent = builder.build();
-                builder.setToolbarColor(context.getResources().getColor(color));
                 Activity thisActivity = (Activity) context;
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+
+                builder.setToolbarColor(context.getResources().getColor(color));
+                builder.setShowTitle(true);
+
+                //Set share action
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_TEXT,n.getLink().toString());
+                shareIntent.setType("*/*");
+                Bitmap shareIcon = BitmapFactory.decodeResource(thisActivity.getResources(), R.drawable.ic_share);
+                PendingIntent pendingShareIntent = PendingIntent.getActivity(context, 0, shareIntent, 0);
+                builder.setActionButton(shareIcon,"Share",pendingShareIntent,true);
+
+                // Does not work !?
+                builder.setStartAnimations(thisActivity, R.anim.slide_in_right, R.anim.slide_out_left);
+                builder.setExitAnimations(thisActivity, R.anim.slide_in_left, R.anim.slide_out_right);
+                builder.setCloseButtonIcon(BitmapFactory.decodeResource(thisActivity.getResources(),R.drawable.ic_arrow_back));
+
+                CustomTabsIntent customTabsIntent = builder.build();
+
                 customTabsIntent.launchUrl(thisActivity,Uri.parse(n.getLink().toString()));
             }
         });
