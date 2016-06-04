@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import abrizzz.monews.R;
@@ -32,6 +33,7 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
     private LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     private NewsItems singletonInstance = NewsItems.getSingletonInstance();
     private List<NewsItem> list;
+    private final SimpleDateFormat fmt = new SimpleDateFormat("HH:MM - dd/MM/yy");
     private static class ViewContentHolder{
         public TextView titleTextView;
         public ImageView thumbnailImageView;
@@ -63,6 +65,7 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
         TextView descriptionView = (TextView) rowView.findViewById(R.id.secondLine);
         ImageView thumbnailView = (ImageView) rowView.findViewById(R.id.thumbnail);
         TextView sourceColor = (TextView) rowView.findViewById(R.id.sourceColor);
+        TextView dateView = (TextView) rowView.findViewById(R.id.dateLine);
 
         titleView.setText(n.getTitle());
         //Set links that have been clicked on as not bold
@@ -72,7 +75,7 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
         }
 
         descriptionView.setText(n.getCreator() + " - " + n.getSource());
-
+        dateView.setText(fmt.format(n.getDatePublished().getTime()));
         setImage(n,thumbnailView,context);
 
         final int color = getColor(n);
