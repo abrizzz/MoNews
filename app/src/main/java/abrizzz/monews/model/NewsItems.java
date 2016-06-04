@@ -37,11 +37,27 @@ public class NewsItems {
 
     public List<NewsItem> getAllItemsAsList()
     {
-        List<NewsItem> l = lexpressItems;
-        l.addAll(defiItems);
-        l.addAll(ionItems);
-        // Randomise list because L'Express does not use proper pubDate tag
-        Collections.shuffle(l);
+        List<NewsItem> l = new ArrayList<NewsItem>();
+        // Mix list because L'Express does not use proper pubDate tag
+        int i = 0;
+        int totalSize = ionItems.size() + defiItems.size() + lexpressItems.size();
+        while(l.size() < totalSize)
+        {
+            if(i < lexpressItems.size()){
+                l.add(lexpressItems.get(i));
+            }
+            if(i < defiItems.size())
+            {
+                l.add(defiItems.get(i));
+            }
+            if(i < ionItems.size())
+            {
+                l.add(ionItems.get(i));
+            }
+            i++;
+        }
+
+
         return l;
     }
 

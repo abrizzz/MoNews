@@ -12,4 +12,6 @@
     <string name="defi">Le Defi</string>
     <string name="ion">Ion News</string>
     <string name="mauricien">Le Mauricien</string>
+
+    <string name="app_info">MoNews is a free and open-source news reader which fetches content from all Mauritian media via RSS.\n\nSource is available at: https://github.com/abrizzz/MoNews \n\nAny issues or suggestions for new features should be requested here: https://github.com/abrizzz/MoNews/issues \n\nAkshay Brizmohun - 2016</string>
 </resources>

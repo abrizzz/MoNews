@@ -7,12 +7,19 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import abrizzz.monews.R;
 import abrizzz.monews.model.NewsItem;
@@ -150,7 +157,15 @@ public class MainActivity extends AppCompatActivity
     // Displays a dialog info about the app
     public void displayAbout()
     {
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final SpannableString msg = new SpannableString(getText(R.string.app_info));
+                TextView infoTextView = new TextView(this);
+        Linkify.addLinks(msg,Linkify.WEB_URLS);
+        builder.setIcon(R.mipmap.ic_launcher)
+                .setTitle(getString(R.string.app_name))
+                .setMessage(msg);
+        AlertDialog infoDialog = builder.create();
+        infoDialog.show();
     }
     @Override
     protected void onResume() {
