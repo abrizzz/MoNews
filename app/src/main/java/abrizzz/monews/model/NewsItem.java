@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 public abstract class NewsItem {
     private String title;
     private URL link;
+    private URL imageLink;
     private GregorianCalendar datePublished;
     private String creator;
     private String description;
@@ -16,7 +17,7 @@ public abstract class NewsItem {
         super();
     }
 
-    public NewsItem(String title, URL link, GregorianCalendar datePublished, String creator, String description, String src) {
+    public NewsItem(String title, URL link, GregorianCalendar datePublished, String creator, String description, String src, URL imageLink) {
         this();
         this.title = title;
         this.link = link;
@@ -86,5 +87,13 @@ public abstract class NewsItem {
     public String toString()
     {
         return this.title;
+    }
+
+    public URL getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(URL imageLink) {
+        this.imageLink = imageLink;
     }
 }

@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import abrizzz.monews.R;
 import abrizzz.monews.model.DefiNewsItem;
@@ -42,6 +44,7 @@ public class ParserDefi extends AsyncTask<Void,Void,Void>{
     private boolean done;
     private String format = "EEE, d MMM yyyy HH:mm:ss ZZZZZ";
     private String tmp = "";
+    private Pattern imagePattern = Pattern.compile("src=\"(.*?)\"");
 
     public ParserDefi(Activity a)
     {
@@ -83,12 +86,19 @@ public class ParserDefi extends AsyncTask<Void,Void,Void>{
                             } else if (xpp.getName().equals(description)) {
                                 if (tmp != null)
                                 {
-                                    Log.i("MoMews",tmp);
+                                    Matcher m = imagePattern.matcher(tmp);
+                                    if(m.find())
+                                    {
+                                        newItem.setImageLink(new URL(m.group(1)));
+                                    }
                                     tmp = Html.fromHtml(tmp).toString();
                                     newItem.setDescription(tmp);
                                 }
                             } else if (xpp.getName().equals(creator)) {
-                                newItem.setCreator(creator);
+                                if (tmp!=null) {
+                                    tmp = Html.fromHtml(tmp).toString();
+                                    newItem.setCreator(tmp);
+                                }
                             } else if (xpp.getName().equals(datePublished)) {
                                 DateFormat df = new SimpleDateFormat(format);
                                 Date d = df.parse(tmp);

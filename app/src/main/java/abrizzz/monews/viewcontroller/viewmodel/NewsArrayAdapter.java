@@ -16,6 +16,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import abrizzz.monews.R;
@@ -55,19 +57,24 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final NewsItem n = list.get(position);
+
         View rowView = inflater.inflate(R.layout.list_item, parent, false);
         TextView titleView = (TextView) rowView.findViewById(R.id.firstLine);
         TextView descriptionView = (TextView) rowView.findViewById(R.id.secondLine);
         ImageView thumbnailView = (ImageView) rowView.findViewById(R.id.thumbnail);
         TextView sourceColor = (TextView) rowView.findViewById(R.id.sourceColor);
+
         titleView.setText(n.getTitle());
+        //Set links that have been clicked on as not bold
         if(n.getRead())
         {
             titleView.setTypeface(null, Typeface.NORMAL);
         }
-        descriptionView.setText(n.getSource());
-        thumbnailView.setImageDrawable(null);
-        thumbnailView.setVisibility(View.GONE);
+
+        descriptionView.setText(n.getCreator() + " - " + n.getSource());
+
+        setImage(n,thumbnailView,context);
+
         final int color = getColor(n);
         sourceColor.setBackgroundResource(color);
         rowView.setOnClickListener(new View.OnClickListener() {
@@ -114,4 +121,25 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
         }
         return R.color.colorPrimary;
     }
+
+    public void setImage(NewsItem n, ImageView thumbnailView, Context c)
+    {
+
+        if(n.getSource().equals(context.getResources().getString(R.string.lexpress)))
+        {
+            thumbnailView.setImageDrawable(null);
+            thumbnailView.setVisibility(View.GONE);
+            return;
+        }
+        if(n.getSource().equals(context.getResources().getString(R.string.defi)))
+        {
+            Glide
+                    .with(c).
+                    load(Uri.parse(n.getImageLink().toString()))
+                    .centerCrop()
+                    .into(thumbnailView);
+        }
+
+    }
+
 }

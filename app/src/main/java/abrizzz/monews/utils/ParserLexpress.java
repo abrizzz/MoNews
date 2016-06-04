@@ -87,7 +87,10 @@ public class ParserLexpress extends AsyncTask<Void,Void,Void>{
                                     newItem.setDescription(tmp);
                                 }
                             } else if (xpp.getName().equals(creator)) {
-                                newItem.setCreator(creator);
+                                if (tmp!=null) {
+                                    tmp = Html.fromHtml(tmp).toString();
+                                    newItem.setCreator(tmp);
+                                }
                             } else if (xpp.getName().equals(datePublished)) {
                                 DateFormat df = new SimpleDateFormat(format);
                                 Date d = df.parse(tmp);
