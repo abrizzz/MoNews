@@ -1,6 +1,8 @@
 package abrizzz.monews.viewcontroller;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -117,6 +119,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_about:
                 displayAbout();
                 break;
+            case R.id.nav_reddit:
+                openReddit();
+                break;
             default:
                 break;
         }
@@ -162,6 +167,14 @@ public class MainActivity extends AppCompatActivity
         AlertDialog infoDialog = builder.create();
         infoDialog.show();
     }
+
+    public void openReddit()
+    {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse("http://www.reddit.com/r/Mauritius"));
+        startActivity(i);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
