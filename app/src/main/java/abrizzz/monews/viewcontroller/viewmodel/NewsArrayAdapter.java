@@ -119,6 +119,10 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
         {
             return R.color.defiPrimary;
         }
+        if(n.getSource().equals(context.getResources().getString(R.string.ion)))
+        {
+            return R.color.ionPrimary;
+        }
         return R.color.colorPrimary;
     }
 
@@ -138,6 +142,23 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
                     load(Uri.parse(n.getImageLink().toString()))
                     .centerCrop()
                     .into(thumbnailView);
+            return;
+        }
+        if(n.getSource().equals(c.getString(R.string.ion)))
+        {
+            if(n.getImageLink() != null)
+            {
+                Glide
+                        .with(c).
+                        load(Uri.parse(n.getImageLink().toString()))
+                        .centerCrop()
+                        .into(thumbnailView);
+            }
+            else{
+                thumbnailView.setImageDrawable(null);
+                thumbnailView.setVisibility(View.GONE);
+            }
+            return;
         }
 
     }

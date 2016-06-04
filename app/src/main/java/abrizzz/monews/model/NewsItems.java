@@ -6,6 +6,7 @@ import android.support.v4.util.ArrayMap;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -16,11 +17,13 @@ public class NewsItems {
     private static NewsItems singleton = null;
     private List<NewsItem> lexpressItems;
     private List<NewsItem> defiItems;
+    private List<NewsItem> ionItems;
 
     private NewsItems()
     {
         lexpressItems = new ArrayList<NewsItem>();
         defiItems = new ArrayList<NewsItem>();
+        ionItems = new ArrayList<NewsItem>();
     }
 
     public static NewsItems getSingletonInstance()
@@ -36,11 +39,10 @@ public class NewsItems {
     {
         List<NewsItem> l = lexpressItems;
         l.addAll(defiItems);
+        l.addAll(ionItems);
+        // Randomise list because L'Express does not use proper pubDate tag
+        Collections.shuffle(l);
         return l;
-    }
-
-    public void addLexpressItem(NewsItem n) {
-        lexpressItems.add(n);
     }
 
     public void addLexpressList(List<NewsItem> l){
@@ -52,15 +54,6 @@ public class NewsItems {
         lexpressItems.clear();
     }
 
-    public List<NewsItem> getLexpressItemsAsList()
-    {
-        return lexpressItems;
-    }
-
-    public void addDefiItem(NewsItem n) {
-        defiItems.add(n);
-    }
-
     public void addDefiList(List<NewsItem> l){
         defiItems.addAll(l);
     }
@@ -70,8 +63,12 @@ public class NewsItems {
         defiItems.clear();
     }
 
-    public List<NewsItem> getDefiItemsAsList()
+    public void addIonList(List<NewsItem> l){
+        ionItems.addAll(l);
+    }
+
+    public void clearIonItems()
     {
-        return defiItems;
+        ionItems.clear();
     }
 }

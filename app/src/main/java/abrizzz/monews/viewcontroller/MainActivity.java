@@ -18,6 +18,7 @@ import abrizzz.monews.R;
 import abrizzz.monews.model.NewsItem;
 import abrizzz.monews.model.NewsItems;
 import abrizzz.monews.utils.ParserDefi;
+import abrizzz.monews.utils.ParserIon;
 import abrizzz.monews.utils.ParserLexpress;
 import abrizzz.monews.viewcontroller.viewmodel.NewsArrayAdapter;
 
@@ -28,6 +29,10 @@ public class MainActivity extends AppCompatActivity
     private ArrayAdapter<NewsItem> newsAdapter;
     private ListView listView;
     private NewsItems singleton;
+
+    public boolean lexpressDone;
+    public boolean defiDone;
+    public boolean ionDone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,8 @@ public class MainActivity extends AppCompatActivity
             public void onRefresh() {
                 singleton.clearDefiItems();
                 singleton.clearLexpressItems();
+                singleton.clearIonItems();
+                newsAdapter.notifyDataSetInvalidated();
                 getNewsItems();
             }
         });
@@ -78,8 +85,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            //super.onBackPressed();
-            this.updateList();
+            super.onBackPressed();
         }
     }
 
@@ -104,7 +110,13 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        switch(id){
+            case R.id.nav_about:
+                displayAbout();
+                break;
+            default:
+                break;
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -112,20 +124,34 @@ public class MainActivity extends AppCompatActivity
 
     public void updateList()
     {
-        NewsArrayAdapter n = (NewsArrayAdapter) newsAdapter;
-        n.updateAllList();
-        newsAdapter.notifyDataSetChanged();
-        swipeRefreshLayout.setRefreshing(false);
+        if(lexpressDone && defiDone && ionDone) {
+            NewsArrayAdapter n = (NewsArrayAdapter) newsAdapter;
+            n.updateAllList();
+            newsAdapter.notifyDataSetChanged();
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     public void getNewsItems()
     {
+        lexpressDone = false;
         ParserLexpress pe = new ParserLexpress(this);
         pe.execute();
+
+        defiDone = false;
         ParserDefi pd = new ParserDefi(this);
         pd.execute();
+
+        ionDone = false;
+        ParserIon pi = new ParserIon(this);
+        pi.execute();
     }
 
+    // Displays a dialog info about the app
+    public void displayAbout()
+    {
+
+    }
     @Override
     protected void onResume() {
         super.onResume();

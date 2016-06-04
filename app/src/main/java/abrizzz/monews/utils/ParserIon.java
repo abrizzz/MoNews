@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 
 import abrizzz.monews.R;
 import abrizzz.monews.model.DefiNewsItem;
-import abrizzz.monews.model.LexpressNewsItem;
+import abrizzz.monews.model.IonNewsItem;
 import abrizzz.monews.model.NewsItem;
 import abrizzz.monews.model.NewsItems;
 import abrizzz.monews.viewcontroller.MainActivity;
@@ -32,21 +32,23 @@ import abrizzz.monews.viewcontroller.MainActivity;
 /**
  * Created by brizzz on 4/27/16.
  */
-public class ParserDefi extends AsyncTask<Void,Void,Void>{
+public class ParserIon extends AsyncTask<Void,Void,Void>{
 
     private Activity activity;
     private String item = "item";
     private String title = "title";
-    private String link = "link";
+    private String link = "guid";
     private String description = "description";
     private String creator = "creator";
     private String datePublished = "pubDate";
+    private String encoded = "encoded";
     private boolean done;
     private String format = "EEE, d MMM yyyy HH:mm:ss ZZZZZ";
     private String tmp = "";
-    private Pattern imagePattern = Pattern.compile("src=\"(.*?)\"");
+    private Pattern linkPattern = Pattern.compile("src=\"(.*?)\"");
+    private Pattern ytPattern = Pattern.compile(".*youtube.com/embed/(.*)");
 
-    public ParserDefi(Activity a)
+    public ParserIon(Activity a)
     {
         this.activity = a;
     }
@@ -56,7 +58,7 @@ public class ParserDefi extends AsyncTask<Void,Void,Void>{
         NewsItem newItem = null;
         List<NewsItem> tmpList = new ArrayList<NewsItem>();
         try{
-            URL u = new URL(activity.getResources().getString(R.string.defi_source));
+            URL u = new URL(activity.getString(R.string.ion_source));
             URLConnection conn = u.openConnection();
             InputStream in = conn.getInputStream();
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -69,7 +71,7 @@ public class ParserDefi extends AsyncTask<Void,Void,Void>{
                 {
                     if(xpp.getName().equals(item))
                     {
-                        newItem = new DefiNewsItem();
+                        newItem = new IonNewsItem();
                         done = false;
                         while(!done) {
                             while (eventType != XmlPullParser.END_TAG) {
@@ -86,11 +88,6 @@ public class ParserDefi extends AsyncTask<Void,Void,Void>{
                             } else if (xpp.getName().equals(description)) {
                                 if (tmp != null)
                                 {
-                                    Matcher m = imagePattern.matcher(tmp);
-                                    if(m.find())
-                                    {
-                                        newItem.setImageLink(new URL(m.group(1)));
-                                    }
                                     tmp = Html.fromHtml(tmp).toString();
                                     newItem.setDescription(tmp);
                                 }
@@ -105,7 +102,27 @@ public class ParserDefi extends AsyncTask<Void,Void,Void>{
                                 GregorianCalendar cal = new GregorianCalendar();
                                 cal.setTime(d);
                                 newItem.setDatePublished(cal);
-                            }else if (xpp.getName().equals(item))
+                            } else if (xpp.getName().equals(encoded))
+                            {
+                                Matcher m = linkPattern.matcher(tmp);
+                                if(m.find())
+                                {
+                                    String url = m.group(1);
+                                    Matcher m2 = ytPattern.matcher(url);
+                                    if(m2.find())
+                                    {
+                                        newItem.setImageLink(new URL("http://img.youtube.com/vi/"+m2.group(1)+"/mqdefault.jpg"));
+                                    }
+                                    else
+                                    {
+                                        newItem.setImageLink(new URL(url));
+                                    }
+                                }
+                                else{
+                                    newItem.setImageLink(null);
+                                }
+                            }
+                            else if (xpp.getName().equals(item))
                             {
                                 done = true;
                             }
@@ -118,14 +135,14 @@ public class ParserDefi extends AsyncTask<Void,Void,Void>{
                                 eventType = xpp.next();
                             }
                         }
-                        newItem.setSource(activity.getResources().getString(R.string.defi));
+                        newItem.setSource(activity.getResources().getString(R.string.ion));
                         newItem.setRead(false);
                         tmpList.add(newItem);
                     }
                 }
                 eventType = xpp.next();
             }
-            NewsItems.getSingletonInstance().addDefiList(tmpList);
+            NewsItems.getSingletonInstance().addIonList(tmpList);
         }
         catch(XmlPullParserException e)
         {
@@ -145,7 +162,7 @@ public class ParserDefi extends AsyncTask<Void,Void,Void>{
     @Override
     protected void onPostExecute(Void aVoid) {
         MainActivity ma = (MainActivity)activity;
-        ma.defiDone = true;
+        ma.ionDone = true;
         ma.updateList();
         super.onPostExecute(aVoid);
     }
