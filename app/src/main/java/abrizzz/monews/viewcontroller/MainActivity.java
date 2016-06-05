@@ -122,6 +122,10 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_reddit:
                 openReddit();
                 break;
+            case R.id.nav_settings:
+                Intent settingsActivity = new Intent(this,SettingsActivity.class);
+                startActivity(settingsActivity);
+                break;
             default:
                 break;
         }
@@ -168,10 +172,11 @@ public class MainActivity extends AppCompatActivity
         infoDialog.show();
     }
 
+    //Intent to open Mauritius subreddit
     public void openReddit()
     {
         Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse("http://www.reddit.com/r/Mauritius"));
+        i.setData(Uri.parse("http://m.reddit.com/r/Mauritius"));
         startActivity(i);
     }
 
