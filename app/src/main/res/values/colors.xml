@@ -4,7 +4,10 @@
     <color name="colorPrimaryDark">#455A64</color>
     <color name="colorAccent">#03A9F4</color>
     <color name="lexpressPrimary">#004A8F</color>
+    <color name="lexpressDark">#002F74</color>
     <color name="defiPrimary">#DD3333</color>
+    <color name="defiDark">#C21818</color>
     <color name="ionPrimary">#777777</color>
+    <color name="ionDark">#5C5C5C</color>
     <color name="mauricienPrimary">#000000</color>
 </resources>

@@ -70,6 +70,8 @@ public class NewsItems {
         lexpressItems.clear();
     }
 
+    public List<NewsItem> getLexpressItemsAsList(){ return this.lexpressItems; }
+
     public void addDefiList(List<NewsItem> l){
         defiItems.addAll(l);
     }
@@ -79,6 +81,8 @@ public class NewsItems {
         defiItems.clear();
     }
 
+    public List<NewsItem> getDefiItemsAsList(){ return this.defiItems; }
+
     public void addIonList(List<NewsItem> l){
         ionItems.addAll(l);
     }
@@ -87,4 +91,6 @@ public class NewsItems {
     {
         ionItems.clear();
     }
+
+    public List<NewsItem> getIonItemsAsList(){ return this.ionItems; }
 }

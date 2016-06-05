@@ -2,7 +2,9 @@ package abrizzz.monews.viewcontroller;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +18,7 @@ import android.text.SpannableString;
 import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -31,7 +34,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private ArrayAdapter<NewsItem> newsAdapter;
+    private NewsArrayAdapter newsAdapter;
     private ListView listView;
     private NewsItems singleton;
 
@@ -56,7 +59,6 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
         singleton = NewsItems.getSingletonInstance();
 
         //Set Pull to refresh colors
@@ -116,6 +118,30 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         switch(id){
+            case R.id.nav_all:
+                newsAdapter.src = NewsArrayAdapter.Sources.ALL;
+                this.getSupportActionBar().setTitle(getString(R.string.app_name));
+                setColor(R.color.colorPrimary,R.color.colorPrimaryDark);
+                updateList();
+                break;
+            case R.id.nav_lexpress:
+                newsAdapter.src = NewsArrayAdapter.Sources.LEXPRESS;
+                this.getSupportActionBar().setTitle(getString(R.string.lexpress));
+                setColor(R.color.lexpressPrimary,R.color.lexpressDark);
+                updateList();
+                break;
+            case R.id.nav_defi:
+                newsAdapter.src = NewsArrayAdapter.Sources.DEFI;
+                this.getSupportActionBar().setTitle(getString(R.string.defi));
+                setColor(R.color.defiPrimary,R.color.defiDark);
+                updateList();
+                break;
+            case R.id.nav_ion:
+                newsAdapter.src = NewsArrayAdapter.Sources.ION;
+                this.getSupportActionBar().setTitle(getString(R.string.ion));
+                setColor(R.color.ionPrimary,R.color.ionDark);
+                updateList();
+                break;
             case R.id.nav_about:
                 displayAbout();
                 break;
@@ -134,6 +160,28 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    public void setColor(int colorPrimaryId, int colorDarkId)
+    {
+        int colorPrimary;
+        int colorDark;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            colorPrimary = getResources().getColor(colorPrimaryId,null);
+            colorDark = getResources().getColor(colorDarkId,null);
+        }
+        else
+        {
+            colorPrimary = getResources().getColor(colorPrimaryId);
+            colorDark = getResources().getColor(colorDarkId);
+        }
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            Window w = getWindow();
+            w.setNavigationBarColor(colorPrimary);
+            w.setStatusBarColor(colorDark);
+        }
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(colorPrimary));
+    }
     public void updateList()
     {
         if(lexpressDone && defiDone && ionDone) {

@@ -34,6 +34,8 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
     private NewsItems singletonInstance = NewsItems.getSingletonInstance();
     private List<NewsItem> list;
     private final SimpleDateFormat fmt = new SimpleDateFormat("HH:MM - dd/MM/yy");
+    public enum Sources {ALL, LEXPRESS, DEFI, ION};
+    public Sources src = Sources.ALL;
     private static class ViewContentHolder{
         public TextView titleTextView;
         public ImageView thumbnailImageView;
@@ -48,7 +50,21 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
 
     public void updateAllList()
     {
-        list = singletonInstance.getAllItemsAsList();
+        switch(src){
+            case LEXPRESS:
+                list = singletonInstance.getLexpressItemsAsList();
+                break;
+            case ION:
+                list = singletonInstance.getIonItemsAsList();
+                break;
+            case DEFI:
+                list = singletonInstance.getDefiItemsAsList();
+                break;
+            case ALL:
+            default:
+                list = singletonInstance.getAllItemsAsList();
+                break;
+        }
     }
     @Override
     public int getCount() {
