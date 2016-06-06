@@ -3,7 +3,7 @@ package abrizzz.monews.model;
 import java.net.URL;
 import java.util.GregorianCalendar;
 
-public abstract class NewsItem {
+public class NewsItem {
     private String title;
     private URL link;
     private URL imageLink;
@@ -26,6 +26,7 @@ public abstract class NewsItem {
         this.description = description;
         this.source = src;
         this.read = false;
+        this.imageLink = imageLink;
     }
 
     public String getTitle() {

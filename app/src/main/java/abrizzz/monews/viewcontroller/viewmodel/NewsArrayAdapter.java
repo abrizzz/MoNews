@@ -34,7 +34,7 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
     private NewsItems singletonInstance = NewsItems.getSingletonInstance();
     private List<NewsItem> list;
     private final SimpleDateFormat fmt = new SimpleDateFormat("HH:MM - dd/MM/yy");
-    public enum Sources {ALL, LEXPRESS, DEFI, ION};
+    public enum Sources {ALL, LEXPRESS, DEFI, ION, CINQPLUS, MAURICIEN, TELEPLUS};
     public Sources src = Sources.ALL;
     private static class ViewContentHolder{
         public TextView titleTextView;
@@ -59,6 +59,13 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
                 break;
             case DEFI:
                 list = singletonInstance.getDefiItemsAsList();
+                break;
+            case CINQPLUS:
+                break;
+            case MAURICIEN:
+                break;
+            case TELEPLUS:
+                list = singletonInstance.getTeleplusItemsAsList();
                 break;
             case ALL:
             default:
@@ -142,28 +149,31 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
         {
             return R.color.ionPrimary;
         }
+        if(n.getSource().equals(context.getResources().getString(R.string.cinqplus)))
+        {
+            return R.color.cinqplusPrimary;
+        }
+        if(n.getSource().equals(context.getResources().getString(R.string.teleplus)))
+        {
+            return R.color.teleplusPrimary;
+        }
+        if(n.getSource().equals(context.getResources().getString(R.string.mauricien)))
+        {
+            return R.color.mauricienDark;
+        }
         return R.color.colorPrimary;
     }
 
     public void setImage(NewsItem n, ImageView thumbnailView, Context c)
     {
-
-        if(n.getSource().equals(context.getResources().getString(R.string.lexpress)))
+        String thisSource = n.getSource();
+        if(thisSource.equals(context.getResources().getString(R.string.lexpress)))
         {
             thumbnailView.setImageDrawable(null);
             thumbnailView.setVisibility(View.GONE);
             return;
         }
-        if(n.getSource().equals(context.getResources().getString(R.string.defi)))
-        {
-            Glide
-                    .with(c).
-                    load(Uri.parse(n.getImageLink().toString()))
-                    .centerCrop()
-                    .into(thumbnailView);
-            return;
-        }
-        if(n.getSource().equals(c.getString(R.string.ion)))
+        if(thisSource.equals(c.getString(R.string.ion)) || thisSource.equals(c.getString(R.string.teleplus)) || thisSource.equals(c.getString(R.string.defi)))
         {
             if(n.getImageLink() != null)
             {

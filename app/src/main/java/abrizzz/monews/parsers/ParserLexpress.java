@@ -1,9 +1,8 @@
-package abrizzz.monews.utils;
+package abrizzz.monews.parsers;
 
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.text.Html;
-import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -11,6 +10,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.ConnectException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
@@ -21,7 +21,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import abrizzz.monews.R;
-import abrizzz.monews.model.LexpressNewsItem;
 import abrizzz.monews.model.NewsItem;
 import abrizzz.monews.model.NewsItems;
 import abrizzz.monews.viewcontroller.MainActivity;
@@ -66,7 +65,7 @@ public class ParserLexpress extends AsyncTask<Void,Void,Void>{
                 {
                     if(xpp.getName().equals(item))
                     {
-                        newItem = new LexpressNewsItem();
+                        newItem = new NewsItem();
                         done = false;
                         while(!done) {
                             while (eventType != XmlPullParser.END_TAG) {
@@ -119,6 +118,11 @@ public class ParserLexpress extends AsyncTask<Void,Void,Void>{
             }
             NewsItems.getSingletonInstance().addLexpressList(tmpList);
         }
+        catch(ConnectException e)
+        {
+            e.printStackTrace();
+            ((MainActivity)activity).lexpressDone = true;
+        }
         catch(XmlPullParserException e)
         {
             e.printStackTrace();
@@ -130,6 +134,7 @@ public class ParserLexpress extends AsyncTask<Void,Void,Void>{
         catch(Exception e)
         {
             e.printStackTrace();
+            ((MainActivity)activity).lexpressDone = true;
         }
         return null;
     }

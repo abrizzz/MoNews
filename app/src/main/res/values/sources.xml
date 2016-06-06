@@ -4,4 +4,6 @@
     <string name="defi_source">http://defimedia.info/feed/</string>
     <string name="ion_source">http://ionnews.mu/feed/</string>
     <string name="mauricien_source">http://www.lemauricien.com/rss/articles/all</string>
+    <string name="cinqplus_source">http://www.5plus.mu/rss.xml</string>
+    <string name="teleplus_source">http://webtv.defimedia.info/feed/</string>
 </resources>

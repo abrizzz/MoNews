@@ -19,15 +19,14 @@ import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import abrizzz.monews.R;
-import abrizzz.monews.model.NewsItem;
 import abrizzz.monews.model.NewsItems;
-import abrizzz.monews.utils.ParserDefi;
-import abrizzz.monews.utils.ParserIon;
-import abrizzz.monews.utils.ParserLexpress;
+import abrizzz.monews.parsers.ParserDefi;
+import abrizzz.monews.parsers.ParserIon;
+import abrizzz.monews.parsers.ParserLexpress;
+import abrizzz.monews.parsers.ParserTeleplus;
 import abrizzz.monews.viewcontroller.viewmodel.NewsArrayAdapter;
 
 public class MainActivity extends AppCompatActivity
@@ -38,9 +37,7 @@ public class MainActivity extends AppCompatActivity
     private ListView listView;
     private NewsItems singleton;
 
-    public boolean lexpressDone;
-    public boolean defiDone;
-    public boolean ionDone;
+    public boolean lexpressDone, defiDone, ionDone, teleplusDone, mauricienDone, cinqplusDone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +139,24 @@ public class MainActivity extends AppCompatActivity
                 setColor(R.color.ionPrimary,R.color.ionDark);
                 updateList();
                 break;
+            case R.id.nav_cinqplus:
+                newsAdapter.src = NewsArrayAdapter.Sources.CINQPLUS;
+                setColor(R.color.cinqplusPrimary,R.color.cinqplusDark);
+                this.getSupportActionBar().setTitle(getString(R.string.cinqplus));
+                updateList();
+                break;
+            case R.id.nav_mauricien:
+                newsAdapter.src = NewsArrayAdapter.Sources.MAURICIEN;
+                setColor(R.color.mauricienPrimary,R.color.mauricienDark);
+                this.getSupportActionBar().setTitle(getString(R.string.mauricien));
+                updateList();
+                break;
+            case R.id.nav_teleplus:
+                newsAdapter.src = NewsArrayAdapter.Sources.TELEPLUS;
+                setColor(R.color.teleplusPrimary,R.color.teleplusDark);
+                this.getSupportActionBar().setTitle(getString(R.string.teleplus));
+                updateList();
+                break;
             case R.id.nav_about:
                 displayAbout();
                 break;
@@ -177,16 +192,15 @@ public class MainActivity extends AppCompatActivity
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
             Window w = getWindow();
-            w.setNavigationBarColor(colorPrimary);
+            w.setNavigationBarColor(colorDark);
             w.setStatusBarColor(colorDark);
         }
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(colorPrimary));
     }
     public void updateList()
     {
-        if(lexpressDone && defiDone && ionDone) {
-            NewsArrayAdapter n = (NewsArrayAdapter) newsAdapter;
-            n.updateAllList();
+        if(lexpressDone && defiDone && ionDone && teleplusDone) {
+            newsAdapter.updateAllList();
             newsAdapter.notifyDataSetChanged();
             swipeRefreshLayout.setRefreshing(false);
         }
@@ -205,6 +219,10 @@ public class MainActivity extends AppCompatActivity
         ionDone = false;
         ParserIon pi = new ParserIon(this);
         pi.execute();
+
+        teleplusDone = false;
+        ParserTeleplus pt = new ParserTeleplus(this);
+        pt.execute();
     }
 
     // Displays a dialog info about the app
@@ -231,6 +249,5 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        newsAdapter.notifyDataSetChanged();
     }
 }

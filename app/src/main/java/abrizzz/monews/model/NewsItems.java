@@ -18,12 +18,14 @@ public class NewsItems {
     private List<NewsItem> lexpressItems;
     private List<NewsItem> defiItems;
     private List<NewsItem> ionItems;
+    private List<NewsItem> teleplusItems;
 
     private NewsItems()
     {
         lexpressItems = new ArrayList<NewsItem>();
         defiItems = new ArrayList<NewsItem>();
         ionItems = new ArrayList<NewsItem>();
+        teleplusItems = new ArrayList<NewsItem>();
     }
 
     public static NewsItems getSingletonInstance()
@@ -40,7 +42,7 @@ public class NewsItems {
         List<NewsItem> l = new ArrayList<NewsItem>();
         // Mix list because L'Express does not use proper pubDate tag
         int i = 0;
-        int totalSize = ionItems.size() + defiItems.size() + lexpressItems.size();
+        int totalSize = ionItems.size() + defiItems.size() + lexpressItems.size() + teleplusItems.size();
         while(l.size() < totalSize)
         {
             if(i < lexpressItems.size()){
@@ -54,10 +56,12 @@ public class NewsItems {
             {
                 l.add(ionItems.get(i));
             }
+            if(i < teleplusItems.size())
+            {
+                l.add(teleplusItems.get(i));
+            }
             i++;
         }
-
-
         return l;
     }
 
@@ -93,4 +97,15 @@ public class NewsItems {
     }
 
     public List<NewsItem> getIonItemsAsList(){ return this.ionItems; }
+
+    public void addTeleplusList(List<NewsItem> l){
+        teleplusItems.addAll(l);
+    }
+
+    public void clearTeleplusItems()
+    {
+        teleplusItems.clear();
+    }
+
+    public List<NewsItem> getTeleplusItemsAsList(){ return this.teleplusItems; }
 }

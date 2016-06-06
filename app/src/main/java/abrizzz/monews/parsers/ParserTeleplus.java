@@ -1,9 +1,8 @@
-package abrizzz.monews.utils;
+package abrizzz.monews.parsers;
 
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.text.Html;
-import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -11,6 +10,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.ConnectException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
@@ -23,8 +23,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import abrizzz.monews.R;
-import abrizzz.monews.model.DefiNewsItem;
-import abrizzz.monews.model.IonNewsItem;
 import abrizzz.monews.model.NewsItem;
 import abrizzz.monews.model.NewsItems;
 import abrizzz.monews.viewcontroller.MainActivity;
@@ -32,7 +30,7 @@ import abrizzz.monews.viewcontroller.MainActivity;
 /**
  * Created by brizzz on 4/27/16.
  */
-public class ParserIon extends AsyncTask<Void,Void,Void>{
+public class ParserTeleplus extends AsyncTask<Void,Void,Void>{
 
     private Activity activity;
     private String item = "item";
@@ -41,14 +39,15 @@ public class ParserIon extends AsyncTask<Void,Void,Void>{
     private String description = "description";
     private String creator = "creator";
     private String datePublished = "pubDate";
-    private String encoded = "encoded";
     private boolean done;
     private String format = "EEE, d MMM yyyy HH:mm:ss ZZZZZ";
     private String tmp = "";
+    private Pattern imagePattern = Pattern.compile("src=\"(.*?)\"");
     private Pattern linkPattern = Pattern.compile("src=\"(.*?)\"");
     private Pattern ytPattern = Pattern.compile(".*youtube.com/embed/(.*)");
+    private String encoded = "encoded";
 
-    public ParserIon(Activity a)
+    public ParserTeleplus(Activity a)
     {
         this.activity = a;
     }
@@ -58,7 +57,7 @@ public class ParserIon extends AsyncTask<Void,Void,Void>{
         NewsItem newItem = null;
         List<NewsItem> tmpList = new ArrayList<NewsItem>();
         try{
-            URL u = new URL(activity.getString(R.string.ion_source));
+            URL u = new URL(activity.getResources().getString(R.string.teleplus_source));
             URLConnection conn = u.openConnection();
             InputStream in = conn.getInputStream();
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -71,7 +70,7 @@ public class ParserIon extends AsyncTask<Void,Void,Void>{
                 {
                     if(xpp.getName().equals(item))
                     {
-                        newItem = new IonNewsItem();
+                        newItem = new NewsItem();
                         done = false;
                         while(!done) {
                             while (eventType != XmlPullParser.END_TAG) {
@@ -88,6 +87,11 @@ public class ParserIon extends AsyncTask<Void,Void,Void>{
                             } else if (xpp.getName().equals(description)) {
                                 if (tmp != null)
                                 {
+                                    Matcher m = imagePattern.matcher(tmp);
+                                    if(m.find())
+                                    {
+                                        newItem.setImageLink(new URL(m.group(1)));
+                                    }
                                     tmp = Html.fromHtml(tmp).toString();
                                     newItem.setDescription(tmp);
                                 }
@@ -102,7 +106,7 @@ public class ParserIon extends AsyncTask<Void,Void,Void>{
                                 GregorianCalendar cal = new GregorianCalendar();
                                 cal.setTime(d);
                                 newItem.setDatePublished(cal);
-                            } else if (xpp.getName().equals(encoded))
+                            }else if (xpp.getName().equals(encoded))
                             {
                                 Matcher m = linkPattern.matcher(tmp);
                                 if(m.find())
@@ -121,8 +125,7 @@ public class ParserIon extends AsyncTask<Void,Void,Void>{
                                 else{
                                     newItem.setImageLink(null);
                                 }
-                            }
-                            else if (xpp.getName().equals(item))
+                            }else if (xpp.getName().equals(item))
                             {
                                 done = true;
                             }
@@ -135,14 +138,18 @@ public class ParserIon extends AsyncTask<Void,Void,Void>{
                                 eventType = xpp.next();
                             }
                         }
-                        newItem.setSource(activity.getResources().getString(R.string.ion));
+                        newItem.setSource(activity.getResources().getString(R.string.teleplus));
                         newItem.setRead(false);
                         tmpList.add(newItem);
                     }
                 }
                 eventType = xpp.next();
             }
-            NewsItems.getSingletonInstance().addIonList(tmpList);
+            NewsItems.getSingletonInstance().addTeleplusList(tmpList);
+        }catch(ConnectException e)
+        {
+            e.printStackTrace();
+            ((MainActivity)activity).teleplusDone = true;
         }
         catch(XmlPullParserException e)
         {
@@ -155,6 +162,7 @@ public class ParserIon extends AsyncTask<Void,Void,Void>{
         catch(Exception e)
         {
             e.printStackTrace();
+            ((MainActivity)activity).teleplusDone = true;
         }
         return null;
     }
@@ -162,7 +170,7 @@ public class ParserIon extends AsyncTask<Void,Void,Void>{
     @Override
     protected void onPostExecute(Void aVoid) {
         MainActivity ma = (MainActivity)activity;
-        ma.ionDone = true;
+        ma.teleplusDone = true;
         ma.updateList();
         super.onPostExecute(aVoid);
     }

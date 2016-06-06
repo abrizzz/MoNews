@@ -1,9 +1,8 @@
-package abrizzz.monews.utils;
+package abrizzz.monews.parsers;
 
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.text.Html;
-import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -11,6 +10,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.ConnectException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
@@ -23,8 +23,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import abrizzz.monews.R;
-import abrizzz.monews.model.DefiNewsItem;
-import abrizzz.monews.model.LexpressNewsItem;
 import abrizzz.monews.model.NewsItem;
 import abrizzz.monews.model.NewsItems;
 import abrizzz.monews.viewcontroller.MainActivity;
@@ -69,7 +67,7 @@ public class ParserDefi extends AsyncTask<Void,Void,Void>{
                 {
                     if(xpp.getName().equals(item))
                     {
-                        newItem = new DefiNewsItem();
+                        newItem = new NewsItem();
                         done = false;
                         while(!done) {
                             while (eventType != XmlPullParser.END_TAG) {
@@ -126,6 +124,10 @@ public class ParserDefi extends AsyncTask<Void,Void,Void>{
                 eventType = xpp.next();
             }
             NewsItems.getSingletonInstance().addDefiList(tmpList);
+        }catch(ConnectException e)
+        {
+            e.printStackTrace();
+            ((MainActivity)activity).defiDone = true;
         }
         catch(XmlPullParserException e)
         {
@@ -138,6 +140,7 @@ public class ParserDefi extends AsyncTask<Void,Void,Void>{
         catch(Exception e)
         {
             e.printStackTrace();
+            ((MainActivity)activity).defiDone = true;
         }
         return null;
     }
