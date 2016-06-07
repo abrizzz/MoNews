@@ -33,13 +33,17 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
     private LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     private NewsItems singletonInstance = NewsItems.getSingletonInstance();
     private List<NewsItem> list;
-    private final SimpleDateFormat fmt = new SimpleDateFormat("HH:MM - dd/MM/yy");
+    private final SimpleDateFormat fmt = new SimpleDateFormat("HH:mm - dd MMM");
     public enum Sources {ALL, LEXPRESS, DEFI, ION, CINQPLUS, MAURICIEN, TELEPLUS};
     public Sources src = Sources.ALL;
+
+    // TODO: Implement ViewContentHolder pattern
     private static class ViewContentHolder{
-        public TextView titleTextView;
-        public ImageView thumbnailImageView;
-        public TextView subtitleTextView;
+        public TextView titleView;
+        public TextView descriptionView;
+        public ImageView thumbnailView;
+        public TextView sourceColor;
+        public TextView dateView;
     }
 
    public NewsArrayAdapter(Context context) {
@@ -166,30 +170,18 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
 
     public void setImage(NewsItem n, ImageView thumbnailView, Context c)
     {
-        String thisSource = n.getSource();
-        if(thisSource.equals(context.getResources().getString(R.string.lexpress)))
+        if(n.getImageLink() != null)
         {
+            Glide
+                    .with(c).
+                    load(Uri.parse(n.getImageLink().toString()))
+                    .centerCrop()
+                    .into(thumbnailView);
+        }
+        else{
             thumbnailView.setImageDrawable(null);
             thumbnailView.setVisibility(View.GONE);
-            return;
         }
-        if(thisSource.equals(c.getString(R.string.ion)) || thisSource.equals(c.getString(R.string.teleplus)) || thisSource.equals(c.getString(R.string.defi)))
-        {
-            if(n.getImageLink() != null)
-            {
-                Glide
-                        .with(c).
-                        load(Uri.parse(n.getImageLink().toString()))
-                        .centerCrop()
-                        .into(thumbnailView);
-            }
-            else{
-                thumbnailView.setImageDrawable(null);
-                thumbnailView.setVisibility(View.GONE);
-            }
-            return;
-        }
-
     }
 
 }

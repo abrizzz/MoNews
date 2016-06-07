@@ -110,6 +110,7 @@ public class ParserLexpress extends AsyncTask<Void,Void,Void>{
                             }
                         }
                         newItem.setSource(activity.getResources().getString(R.string.lexpress));
+                        newItem.setImageLink(null);
                         newItem.setRead(false);
                         tmpList.add(newItem);
                     }

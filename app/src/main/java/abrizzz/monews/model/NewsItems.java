@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import utils.DateCompare;
+
 
 /**
  * Created by brizzz on 4/29/16.
@@ -37,31 +39,16 @@ public class NewsItems {
         return singleton;
     }
 
+    //Retungs a list of all NewsItem sorted by publish date
     public List<NewsItem> getAllItemsAsList()
     {
         List<NewsItem> l = new ArrayList<NewsItem>();
-        // Mix list because L'Express does not use proper pubDate tag
-        int i = 0;
-        int totalSize = ionItems.size() + defiItems.size() + lexpressItems.size() + teleplusItems.size();
-        while(l.size() < totalSize)
-        {
-            if(i < lexpressItems.size()){
-                l.add(lexpressItems.get(i));
-            }
-            if(i < defiItems.size())
-            {
-                l.add(defiItems.get(i));
-            }
-            if(i < ionItems.size())
-            {
-                l.add(ionItems.get(i));
-            }
-            if(i < teleplusItems.size())
-            {
-                l.add(teleplusItems.get(i));
-            }
-            i++;
-        }
+        l.addAll(defiItems);
+        l.addAll(ionItems);
+        l.addAll(teleplusItems);
+        Collections.sort(l,new DateCompare());
+        // Add L'Express at the end because it does not use proper pubDate tag
+        l.addAll(lexpressItems);
         return l;
     }
 

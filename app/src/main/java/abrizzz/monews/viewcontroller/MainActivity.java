@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity
                 singleton.clearDefiItems();
                 singleton.clearLexpressItems();
                 singleton.clearIonItems();
+                singleton.clearTeleplusItems();
                 newsAdapter.notifyDataSetInvalidated();
                 getNewsItems();
             }
