@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,8 +34,8 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
     private LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     private NewsItems singletonInstance = NewsItems.getSingletonInstance();
     private List<NewsItem> list;
-    private final SimpleDateFormat fmt = new SimpleDateFormat("HH:mm - dd MMM");
-    public enum Sources {ALL, LEXPRESS, DEFI, ION, CINQPLUS, MAURICIEN, TELEPLUS};
+    public enum Sources {ALL, LEXPRESS, DEFI, ION, CINQPLUS, MAURICIEN, TELEPLUS}
+
     public Sources src = Sources.ALL;
 
     // TODO: Implement ViewContentHolder pattern
@@ -65,8 +66,10 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
                 list = singletonInstance.getDefiItemsAsList();
                 break;
             case CINQPLUS:
+                list = singletonInstance.getCinqplusItemsAsList();
                 break;
             case MAURICIEN:
+                list = singletonInstance.getMauricienItemsAsList();
                 break;
             case TELEPLUS:
                 list = singletonInstance.getTeleplusItemsAsList();
@@ -99,10 +102,11 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
         if(n.getRead())
         {
             titleView.setTypeface(null, Typeface.NORMAL);
+            thumbnailView.setImageAlpha(155);
         }
 
         descriptionView.setText(n.getCreator() + " - " + n.getSource());
-        dateView.setText(fmt.format(n.getDatePublished().getTime()));
+        dateView.setText(DateUtils.getRelativeTimeSpanString(n.getDatePublished().getTimeInMillis()));
         setImage(n,thumbnailView,context);
 
         final int color = getColor(n);

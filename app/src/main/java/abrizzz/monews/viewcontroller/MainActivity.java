@@ -23,9 +23,11 @@ import android.widget.ListView;
 
 import abrizzz.monews.R;
 import abrizzz.monews.model.NewsItems;
+import abrizzz.monews.parsers.ParserCinqplus;
 import abrizzz.monews.parsers.ParserDefi;
 import abrizzz.monews.parsers.ParserIon;
 import abrizzz.monews.parsers.ParserLexpress;
+import abrizzz.monews.parsers.ParserMauricien;
 import abrizzz.monews.parsers.ParserTeleplus;
 import abrizzz.monews.viewcontroller.viewmodel.NewsArrayAdapter;
 
@@ -66,10 +68,6 @@ public class MainActivity extends AppCompatActivity
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                singleton.clearDefiItems();
-                singleton.clearLexpressItems();
-                singleton.clearIonItems();
-                singleton.clearTeleplusItems();
                 newsAdapter.notifyDataSetInvalidated();
                 getNewsItems();
             }
@@ -200,7 +198,7 @@ public class MainActivity extends AppCompatActivity
     }
     public void updateList()
     {
-        if(lexpressDone && defiDone && ionDone && teleplusDone) {
+        if(lexpressDone && defiDone && ionDone && teleplusDone && cinqplusDone && mauricienDone) {
             newsAdapter.updateAllList();
             newsAdapter.notifyDataSetChanged();
             swipeRefreshLayout.setRefreshing(false);
@@ -209,6 +207,13 @@ public class MainActivity extends AppCompatActivity
 
     public void getNewsItems()
     {
+        singleton.clearDefiItems();
+        singleton.clearLexpressItems();
+        singleton.clearIonItems();
+        singleton.clearTeleplusItems();
+        singleton.clearCinqplusItems();
+        singleton.clearMauricienItems();
+        
         lexpressDone = false;
         ParserLexpress pe = new ParserLexpress(this);
         pe.execute();
@@ -224,6 +229,14 @@ public class MainActivity extends AppCompatActivity
         teleplusDone = false;
         ParserTeleplus pt = new ParserTeleplus(this);
         pt.execute();
+
+        cinqplusDone = false;
+        ParserCinqplus pc = new ParserCinqplus(this);
+        pc.execute();
+
+        mauricienDone = false;
+        ParserMauricien pm = new ParserMauricien(this);
+        pm.execute();
     }
 
     // Displays a dialog info about the app

@@ -17,19 +17,7 @@ public class NewsItem {
         super();
     }
 
-    public NewsItem(String title, URL link, GregorianCalendar datePublished, String creator, String description, String src, URL imageLink) {
-        this();
-        this.title = title;
-        this.link = link;
-        this.datePublished = datePublished;
-        this.creator = creator;
-        this.description = description;
-        this.source = src;
-        this.read = false;
-        this.imageLink = imageLink;
-    }
-
-    public String getTitle() {
+   public String getTitle() {
         return this.title;
     }
 
