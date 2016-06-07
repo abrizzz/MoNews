@@ -1,4 +1,4 @@
-package utils;
+package abrizzz.monews.utils;
 
 import java.util.Comparator;
 

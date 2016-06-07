@@ -143,7 +143,7 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
         return rowView;
     }
 
-    public int getColor(NewsItem n)
+    private int getColor(NewsItem n)
     {
         if(n.getSource().equals(context.getResources().getString(R.string.lexpress)))
         {
@@ -172,7 +172,7 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
         return R.color.colorPrimary;
     }
 
-    public void setImage(NewsItem n, ImageView thumbnailView, Context c)
+    private void setImage(NewsItem n, ImageView thumbnailView, Context c)
     {
         if(n.getImageLink() != null)
         {

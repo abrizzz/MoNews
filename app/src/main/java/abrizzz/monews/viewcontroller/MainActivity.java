@@ -163,8 +163,6 @@ public class MainActivity extends AppCompatActivity
                 openReddit();
                 break;
             case R.id.nav_settings:
-                Intent settingsActivity = new Intent(this,SettingsActivity.class);
-                startActivity(settingsActivity);
                 break;
             default:
                 break;
@@ -199,9 +197,11 @@ public class MainActivity extends AppCompatActivity
     public void updateList()
     {
         if(lexpressDone && defiDone && ionDone && teleplusDone && cinqplusDone && mauricienDone) {
+            listView.setSelectionAfterHeaderView();
             newsAdapter.updateAllList();
             newsAdapter.notifyDataSetChanged();
             swipeRefreshLayout.setRefreshing(false);
+            listView.setSelectionAfterHeaderView();
         }
     }
 
@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity
         singleton.clearTeleplusItems();
         singleton.clearCinqplusItems();
         singleton.clearMauricienItems();
-        
+
         lexpressDone = false;
         ParserLexpress pe = new ParserLexpress(this);
         pe.execute();
@@ -263,5 +263,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        newsAdapter.notifyDataSetChanged();
     }
 }
