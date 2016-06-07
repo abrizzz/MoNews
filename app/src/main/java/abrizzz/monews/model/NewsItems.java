@@ -49,6 +49,14 @@ public class NewsItems {
         return l;
     }
 
+    public void clearAllList(){
+        clearDefiItems();
+        clearLexpressItems();
+        clearIonItems();
+        clearTeleplusItems();
+        clearCinqplusItems();
+        clearMauricienItems();
+    }
     public void addLexpressList(List<NewsItem> l){
         lexpressItems.addAll(l);
     }

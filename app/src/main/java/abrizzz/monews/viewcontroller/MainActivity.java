@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        //getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -207,12 +207,7 @@ public class MainActivity extends AppCompatActivity
 
     public void getNewsItems()
     {
-        singleton.clearDefiItems();
-        singleton.clearLexpressItems();
-        singleton.clearIonItems();
-        singleton.clearTeleplusItems();
-        singleton.clearCinqplusItems();
-        singleton.clearMauricienItems();
+        singleton.clearAllList();
 
         lexpressDone = false;
         ParserLexpress pe = new ParserLexpress(this);
