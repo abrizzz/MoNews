@@ -205,9 +205,9 @@ public class MainActivity extends AppCompatActivity
     }
     public void updateList()
     {
-        newsAdapter.updateAllList();
-        newsAdapter.notifyDataSetChanged();
         if(lexpressDone && defiDone && ionDone && teleplusDone && cinqplusDone && mauricienDone) {
+            newsAdapter.updateAllList();
+            newsAdapter.notifyDataSetChanged();
             progressBar.setVisibility(View.GONE);
             swipeRefreshLayout.setRefreshing(false);
             listView.setSelectionAfterHeaderView();

@@ -17,9 +17,26 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay" >
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
+
+
+    <fr.castorflex.android.circularprogressbar.CircularProgressBar
+        android:id="@+id/progressbar"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="48dip"
+        android:layout_height="48dip"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        app:cpb_colors="@array/flag_colors"
+        app:cpb_rotation_speed="1.0"
+        app:cpb_sweep_speed="1.0"
+        app:cpb_stroke_width="3dip"
+        app:cpb_min_sweep_angle="10"
+        app:cpb_max_sweep_angle="300"/>
 
     <include layout="@layout/content_main" />
 
