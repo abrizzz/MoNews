@@ -19,7 +19,8 @@
         android:text="MoNews"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:layout_weight="0.1"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textAlignment="gravity" />
 
     <TextView
         android:text="The latest headlines from Mauritius"
@@ -27,5 +28,5 @@
         android:textColor="#FFFFFF"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-         />
+        android:textAlignment="gravity" />
 </LinearLayout>

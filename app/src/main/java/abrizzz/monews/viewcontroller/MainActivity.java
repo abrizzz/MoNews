@@ -18,8 +18,10 @@ import android.text.SpannableString;
 import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import abrizzz.monews.R;
 import abrizzz.monews.model.NewsItems;
@@ -30,6 +32,8 @@ import abrizzz.monews.parsers.ParserLexpress;
 import abrizzz.monews.parsers.ParserMauricien;
 import abrizzz.monews.parsers.ParserTeleplus;
 import abrizzz.monews.viewcontroller.viewmodel.NewsArrayAdapter;
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
+import fr.castorflex.android.circularprogressbar.CircularProgressDrawable;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -38,7 +42,7 @@ public class MainActivity extends AppCompatActivity
     private NewsArrayAdapter newsAdapter;
     private ListView listView;
     private NewsItems singleton;
-
+    private CircularProgressBar progressBar;
     public boolean lexpressDone, defiDone, ionDone, teleplusDone, mauricienDone, cinqplusDone;
 
     @Override
@@ -60,10 +64,12 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         singleton = NewsItems.getSingletonInstance();
 
+        progressBar = (CircularProgressBar) findViewById(R.id.progressbar);
+
         //Set Pull to refresh colors
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
-        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#F44336"), Color.parseColor("#2196F3"), Color.parseColor("#FFC107"),Color.parseColor("#4CAF50"));
-        swipeRefreshLayout.measure(1,1); //workaround to make animation show at when loading first time
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.red),getResources().getColor(R.color.blue),getResources().getColor(R.color.yellow),getResources().getColor(R.color.green));
+        //swipeRefreshLayout.measure(1,1); workaround to make animation show at when loading first time
         swipeRefreshLayout.setRefreshing(true);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -160,7 +166,10 @@ public class MainActivity extends AppCompatActivity
                 displayAbout();
                 break;
             case R.id.nav_reddit:
-                openReddit();
+                openLinkIntent("http://www.reddit.com/r/mauritius");
+                break;
+            case R.id.nav_feedback:
+                openLinkIntent("https://play.google.com/store/apps/details?id=abrizzz.monews");
                 break;
             case R.id.nav_settings:
                 break;
@@ -196,10 +205,10 @@ public class MainActivity extends AppCompatActivity
     }
     public void updateList()
     {
+        newsAdapter.updateAllList();
+        newsAdapter.notifyDataSetChanged();
         if(lexpressDone && defiDone && ionDone && teleplusDone && cinqplusDone && mauricienDone) {
-            listView.setSelectionAfterHeaderView();
-            newsAdapter.updateAllList();
-            newsAdapter.notifyDataSetChanged();
+            progressBar.setVisibility(View.GONE);
             swipeRefreshLayout.setRefreshing(false);
             listView.setSelectionAfterHeaderView();
         }
@@ -248,12 +257,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     //Intent to open Mauritius subreddit
-    public void openReddit()
+    public void openLinkIntent(String url)
     {
         Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse("http://m.reddit.com/r/Mauritius"));
+        i.setData(Uri.parse(url));
         startActivity(i);
     }
+
 
     @Override
     protected void onResume() {
