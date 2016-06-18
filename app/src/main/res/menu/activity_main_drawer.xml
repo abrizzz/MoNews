@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:title="Sources">
         <menu>
@@ -30,7 +31,7 @@
 
                 <item
                     android:id="@+id/nav_teleplus"
-                    android:title="@string/teleplus"/>
+                    android:title="@string/teleplus" />
 
             </group>
         </menu>
@@ -39,7 +40,7 @@
     <item
         android:id="@+id/nav_reddit"
         android:icon="@drawable/reddit"
-        android:title="/r/Mauritius"
+        android:title="@string/reddit"
         />
 
     <item

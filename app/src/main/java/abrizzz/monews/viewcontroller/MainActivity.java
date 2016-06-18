@@ -1,8 +1,11 @@
 package abrizzz.monews.viewcontroller;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,8 +23,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import abrizzz.monews.R;
 import abrizzz.monews.model.NewsItems;
@@ -43,6 +48,7 @@ public class MainActivity extends AppCompatActivity
     private ListView listView;
     private NewsItems singleton;
     private CircularProgressBar progressBar;
+    private TextView connectionInfo;
     public boolean lexpressDone, defiDone, ionDone, teleplusDone, mauricienDone, cinqplusDone;
 
     @Override
@@ -65,6 +71,7 @@ public class MainActivity extends AppCompatActivity
         singleton = NewsItems.getSingletonInstance();
 
         progressBar = (CircularProgressBar) findViewById(R.id.progressbar);
+        connectionInfo = (TextView) findViewById(R.id.connection_info);
 
         //Set Pull to refresh colors
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
@@ -81,11 +88,11 @@ public class MainActivity extends AppCompatActivity
 
         // Get news articles async
         getNewsItems();
-
         //Set list adapter
         listView = (ListView) findViewById(R.id.list_view);
         newsAdapter = new NewsArrayAdapter(this);
         listView.setAdapter(newsAdapter);
+        listView.setEmptyView((TextView)findViewById(android.R.id.empty));
     }
 
     @Override
@@ -101,7 +108,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.main, menu);
+        // getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -111,6 +118,10 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        switch (id){
+            case R.id.browser:
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -214,33 +225,52 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public Boolean isConnected()
+    {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean connected = (activeNetwork != null && activeNetwork.isConnectedOrConnecting());
+        if(connected){
+            connectionInfo.setVisibility(View.GONE);
+        }else
+        {
+            connectionInfo.setVisibility(View.VISIBLE);
+            swipeRefreshLayout.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
+        }
+        return connected;
+    }
+
+
     public void getNewsItems()
     {
-        singleton.clearAllList();
+        if(isConnected()) {
+            singleton.clearAllList();
 
-        lexpressDone = false;
-        ParserLexpress pe = new ParserLexpress(this);
-        pe.execute();
+            lexpressDone = false;
+            ParserLexpress pe = new ParserLexpress(this);
+            pe.execute();
 
-        defiDone = false;
-        ParserDefi pd = new ParserDefi(this);
-        pd.execute();
+            defiDone = false;
+            ParserDefi pd = new ParserDefi(this);
+            pd.execute();
 
-        ionDone = false;
-        ParserIon pi = new ParserIon(this);
-        pi.execute();
+            ionDone = false;
+            ParserIon pi = new ParserIon(this);
+            pi.execute();
 
-        teleplusDone = false;
-        ParserTeleplus pt = new ParserTeleplus(this);
-        pt.execute();
+            teleplusDone = false;
+            ParserTeleplus pt = new ParserTeleplus(this);
+            pt.execute();
 
-        cinqplusDone = false;
-        ParserCinqplus pc = new ParserCinqplus(this);
-        pc.execute();
+            cinqplusDone = false;
+            ParserCinqplus pc = new ParserCinqplus(this);
+            pc.execute();
 
-        mauricienDone = false;
-        ParserMauricien pm = new ParserMauricien(this);
-        pm.execute();
+            mauricienDone = false;
+            ParserMauricien pm = new ParserMauricien(this);
+            pm.execute();
+        }
     }
 
     // Displays a dialog info about the app
