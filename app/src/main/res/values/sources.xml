@@ -6,4 +6,11 @@
     <string name="mauricien_source">http://www.lemauricien.com/rss/articles/all</string>
     <string name="cinqplus_source">http://www.5plus.mu/rss.xml</string>
     <string name="teleplus_source">http://webtv.defimedia.info/feed/</string>
+
+    <string name="lexpress_home">http://www.lexpress.mu/</string>
+    <string name="defi_home">http://defimedia.info/</string>
+    <string name="ion_home">http://ionnews.mu/</string>
+    <string name="mauricien_home">http://www.lemauricien.com/</string>
+    <string name="cinqplus_home">http://www.5plus.mu/</string>
+    <string name="teleplus_home">http://webtv.defimedia.info/</string>
 </resources>

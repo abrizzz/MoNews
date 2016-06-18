@@ -25,6 +25,7 @@ import java.util.List;
 import abrizzz.monews.R;
 import abrizzz.monews.model.NewsItem;
 import abrizzz.monews.model.NewsItems;
+import abrizzz.monews.utils.CustomTabBuilder;
 
 /**
  * Created by brizzz on 4/30/16.
@@ -115,28 +116,7 @@ public class NewsArrayAdapter extends ArrayAdapter<NewsItem> {
             @Override
             public void onClick(View v) {
                 n.setRead(true);
-                Activity thisActivity = (Activity) context;
-                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-
-                builder.setToolbarColor(context.getResources().getColor(color));
-                builder.setShowTitle(true);
-
-                //Set share action
-                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.putExtra(Intent.EXTRA_TEXT,n.getLink().toString());
-                shareIntent.setType("*/*");
-                Bitmap shareIcon = BitmapFactory.decodeResource(thisActivity.getResources(), R.drawable.ic_share);
-                PendingIntent pendingShareIntent = PendingIntent.getActivity(context, 0, shareIntent, 0);
-                builder.setActionButton(shareIcon,"Share",pendingShareIntent,true);
-
-                // Does not work !?
-                builder.setStartAnimations(thisActivity, R.anim.slide_in_right, R.anim.slide_out_left);
-                builder.setExitAnimations(thisActivity, R.anim.slide_in_left, R.anim.slide_out_right);
-                builder.setCloseButtonIcon(BitmapFactory.decodeResource(thisActivity.getResources(),R.drawable.ic_arrow_back));
-
-                CustomTabsIntent customTabsIntent = builder.build();
-
-                customTabsIntent.launchUrl(thisActivity,Uri.parse(n.getLink().toString()));
+                CustomTabBuilder.Builder(context,getColor(n),n.getLink().toString()).launchUrl(((Activity)context),Uri.parse(n.getLink().toString()));
             }
         });
 

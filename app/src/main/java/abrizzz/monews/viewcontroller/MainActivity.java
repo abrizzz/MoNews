@@ -1,8 +1,8 @@
 package abrizzz.monews.viewcontroller;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -23,9 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import abrizzz.monews.R;
@@ -36,9 +34,9 @@ import abrizzz.monews.parsers.ParserIon;
 import abrizzz.monews.parsers.ParserLexpress;
 import abrizzz.monews.parsers.ParserMauricien;
 import abrizzz.monews.parsers.ParserTeleplus;
+import abrizzz.monews.utils.CustomTabBuilder;
 import abrizzz.monews.viewcontroller.viewmodel.NewsArrayAdapter;
 import fr.castorflex.android.circularprogressbar.CircularProgressBar;
-import fr.castorflex.android.circularprogressbar.CircularProgressDrawable;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -49,8 +47,10 @@ public class MainActivity extends AppCompatActivity
     private NewsItems singleton;
     private CircularProgressBar progressBar;
     private TextView connectionInfo;
+    private MenuItem openInBrowser;
     public boolean lexpressDone, defiDone, ionDone, teleplusDone, mauricienDone, cinqplusDone;
-
+    private String browserUrl;
+    private int  colorPrimaryId, colorDarkId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Set Layout
@@ -92,7 +92,9 @@ public class MainActivity extends AppCompatActivity
         listView = (ListView) findViewById(R.id.list_view);
         newsAdapter = new NewsArrayAdapter(this);
         listView.setAdapter(newsAdapter);
-        listView.setEmptyView((TextView)findViewById(android.R.id.empty));
+        listView.setEmptyView(findViewById(android.R.id.empty));
+
+        browserUrl = null;
     }
 
     @Override
@@ -108,7 +110,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        // getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
+        openInBrowser = menu.findItem(R.id.open_in_browser);
         return true;
     }
 
@@ -119,10 +122,22 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         switch (id){
-            case R.id.browser:
+            case R.id.open_in_browser:
+                CustomTabBuilder.Builder(this,colorPrimaryId,browserUrl).launchUrl(this,Uri.parse(browserUrl.toString()));
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if(browserUrl == null){
+            openInBrowser.setVisible(false);
+        }else{
+            openInBrowser.setVisible(true);
+        }
+        return true;
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -134,43 +149,58 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_all:
                 newsAdapter.src = NewsArrayAdapter.Sources.ALL;
                 this.getSupportActionBar().setTitle(getString(R.string.app_name));
-                setColor(R.color.colorPrimary,R.color.colorPrimaryDark);
+                colorPrimaryId = R.color.colorPrimary;
+                colorDarkId = R.color.colorPrimaryDark;
+                browserUrl = null;
                 updateList();
                 break;
             case R.id.nav_lexpress:
                 newsAdapter.src = NewsArrayAdapter.Sources.LEXPRESS;
                 this.getSupportActionBar().setTitle(getString(R.string.lexpress));
-                setColor(R.color.lexpressPrimary,R.color.lexpressDark);
+                colorPrimaryId = R.color.lexpressPrimary;
+                colorDarkId = R.color.lexpressDark;
+                browserUrl=getString(R.string.lexpress_home);
                 updateList();
                 break;
             case R.id.nav_defi:
                 newsAdapter.src = NewsArrayAdapter.Sources.DEFI;
                 this.getSupportActionBar().setTitle(getString(R.string.defi));
-                setColor(R.color.defiPrimary,R.color.defiDark);
+                colorPrimaryId = R.color.defiPrimary;
+                colorDarkId = R.color.defiDark;
+                browserUrl = getString(R.string.defi_home);
                 updateList();
                 break;
             case R.id.nav_ion:
                 newsAdapter.src = NewsArrayAdapter.Sources.ION;
                 this.getSupportActionBar().setTitle(getString(R.string.ion));
-                setColor(R.color.ionPrimary,R.color.ionDark);
+                colorPrimaryId = R.color.ionPrimary;
+                colorDarkId = R.color.ionDark;
+                browserUrl = getString(R.string.ion_home);
                 updateList();
                 break;
             case R.id.nav_cinqplus:
                 newsAdapter.src = NewsArrayAdapter.Sources.CINQPLUS;
-                setColor(R.color.cinqplusPrimary,R.color.cinqplusDark);
+                colorPrimaryId = R.color.cinqplusPrimary;
+                colorDarkId = R.color.cinqplusDark;
                 this.getSupportActionBar().setTitle(getString(R.string.cinqplus));
+                browserUrl = getString(R.string.cinqplus_home);
                 updateList();
                 break;
             case R.id.nav_mauricien:
                 newsAdapter.src = NewsArrayAdapter.Sources.MAURICIEN;
-                setColor(R.color.mauricienPrimary,R.color.mauricienDark);
+                colorPrimaryId = R.color.mauricienPrimary;
+                colorDarkId = R.color.mauricienDark;
                 this.getSupportActionBar().setTitle(getString(R.string.mauricien));
+                openInBrowser.setVisible(true);
+                browserUrl = getString(R.string.mauricien_home);
                 updateList();
                 break;
             case R.id.nav_teleplus:
                 newsAdapter.src = NewsArrayAdapter.Sources.TELEPLUS;
-                setColor(R.color.teleplusPrimary,R.color.teleplusDark);
+                colorPrimaryId = R.color.teleplusPrimary;
+                colorDarkId = R.color.teleplusDark;
                 this.getSupportActionBar().setTitle(getString(R.string.teleplus));
+                browserUrl = getString(R.string.teleplus_home);
                 updateList();
                 break;
             case R.id.nav_about:
@@ -189,10 +219,12 @@ public class MainActivity extends AppCompatActivity
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        setColor();
+        invalidateOptionsMenu();
         return true;
     }
 
-    public void setColor(int colorPrimaryId, int colorDarkId)
+    public void setColor()
     {
         int colorPrimary;
         int colorDark;
