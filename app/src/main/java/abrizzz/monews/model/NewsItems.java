@@ -2,6 +2,7 @@ package abrizzz.monews.model;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -57,7 +58,7 @@ public class NewsItems {
         clearCinqplusItems();
         clearMauricienItems();
     }
-    public void addLexpressList(List<NewsItem> l){
+    public void addLexpressList(Collection<NewsItem> l){
         lexpressItems.addAll(l);
     }
     public void clearLexpressItems()
@@ -66,7 +67,7 @@ public class NewsItems {
     }
     public List<NewsItem> getLexpressItemsAsList(){ return this.lexpressItems; }
 
-    public void addDefiList(List<NewsItem> l){
+    public void addDefiList(Collection<NewsItem> l){
         defiItems.addAll(l);
     }
     public void clearDefiItems()
@@ -75,7 +76,7 @@ public class NewsItems {
     }
     public List<NewsItem> getDefiItemsAsList(){ return this.defiItems; }
 
-    public void addIonList(List<NewsItem> l){
+    public void addIonList(Collection<NewsItem> l){
         ionItems.addAll(l);
     }
     public void clearIonItems()
@@ -84,7 +85,7 @@ public class NewsItems {
     }
     public List<NewsItem> getIonItemsAsList(){ return this.ionItems; }
 
-    public void addTeleplusList(List<NewsItem> l){
+    public void addTeleplusList(Collection<NewsItem> l){
         teleplusItems.addAll(l);
     }
     public void clearTeleplusItems()
@@ -93,7 +94,7 @@ public class NewsItems {
     }
     public List<NewsItem> getTeleplusItemsAsList(){ return this.teleplusItems; }
 
-    public void addCinqplusList(List<NewsItem> l){
+    public void addCinqplusList(Collection<NewsItem> l){
         cinqplusItems.addAll(l);
     }
     public void clearCinqplusItems()
@@ -102,7 +103,7 @@ public class NewsItems {
     }
     public List<NewsItem> getCinqplusItemsAsList(){ return this.cinqplusItems; }
 
-    public void addMauricienList(List<NewsItem> l){
+    public void addMauricienList(Collection<NewsItem> l){
         mauricienItems.addAll(l);
     }
     public void clearMauricienItems()

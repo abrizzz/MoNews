@@ -15,10 +15,9 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.LinkedHashMap;
 
 import abrizzz.monews.R;
 import abrizzz.monews.model.NewsItem;
@@ -48,7 +47,8 @@ public class ParserLexpress extends AsyncTask<Void,Void,Void>{
 
     @Override
     protected Void doInBackground(Void... params) {
-        List<NewsItem> tmpList = new ArrayList<NewsItem>();
+        LinkedHashMap<String,NewsItem> tmpList = new LinkedHashMap<>();
+        String tmpUrl = "";
         NewsItem newItem = null;
         NewsItems.getSingletonInstance().clearLexpressItems();
         try{
@@ -78,6 +78,7 @@ public class ParserLexpress extends AsyncTask<Void,Void,Void>{
                                     newItem.setTitle(tmp);
                                 }
                             } else if (xpp.getName().equals(link)) {
+                                tmpUrl = tmp;
                                 newItem.setLink(new URL(tmp));
                             } else if (xpp.getName().equals(description)) {
                                 if (tmp != null)
@@ -112,12 +113,12 @@ public class ParserLexpress extends AsyncTask<Void,Void,Void>{
                         newItem.setSource(activity.getResources().getString(R.string.lexpress));
                         newItem.setImageLink(null);
                         newItem.setRead(false);
-                        tmpList.add(newItem);
+                        tmpList.put(tmpUrl,newItem);
                     }
                 }
                 eventType = xpp.next();
             }
-            NewsItems.getSingletonInstance().addLexpressList(tmpList);
+            NewsItems.getSingletonInstance().addLexpressList(tmpList.values());
         }
         catch(ConnectException e)
         {
