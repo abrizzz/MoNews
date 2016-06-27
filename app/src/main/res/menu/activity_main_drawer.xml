@@ -7,7 +7,7 @@
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/nav_all"
-                    android:title="All Sources"/>
+                    android:title="All Sources" />
 
                 <item
                     android:id="@+id/nav_lexpress"
@@ -19,7 +19,7 @@
 
                 <item
                     android:id="@+id/nav_ion"
-                    android:title="@string/ion" />
+                    android:title="@string/ion"/>
 
                 <item
                     android:id="@+id/nav_mauricien"
@@ -27,7 +27,7 @@
 
                 <item
                     android:id="@+id/nav_cinqplus"
-                    android:title="@string/cinqplus"/>
+                    android:title="@string/cinqplus" />
 
                 <item
                     android:id="@+id/nav_teleplus"
