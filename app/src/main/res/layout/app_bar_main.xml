@@ -24,16 +24,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/connection_info"
-        android:text="@string/not_connected"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:textColor="@android:color/white"
-        android:background="@color/red"
-        android:visibility="visible"
-        android:gravity="center" />
 
     <fr.castorflex.android.circularprogressbar.CircularProgressBar
         android:id="@+id/progressbar"
@@ -51,5 +41,16 @@
         app:cpb_max_sweep_angle="300"/>
 
     <include layout="@layout/content_main" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/connection_info"
+        android:text="@string/not_connected"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:textColor="@android:color/white"
+        android:background="@color/red"
+        android:visibility="visible"
+        android:gravity="center" />
 
 </android.support.design.widget.CoordinatorLayout>

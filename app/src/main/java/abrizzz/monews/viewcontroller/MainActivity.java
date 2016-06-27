@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity
         //Set Pull to refresh colors
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.red),getResources().getColor(R.color.blue),getResources().getColor(R.color.yellow),getResources().getColor(R.color.green));
-        //swipeRefreshLayout.measure(1,1); workaround to make animation show at when loading first time
+
         swipeRefreshLayout.setRefreshing(true);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -223,6 +223,7 @@ public class MainActivity extends AppCompatActivity
         invalidateOptionsMenu();
         return true;
     }
+
 
     public void setColor()
     {
