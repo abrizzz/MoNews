@@ -20,4 +20,9 @@
 
     <string name="app_info">MoNews is a free and open-source news reader which fetches content from Mauritian media via RSS.\n\nSource is available at: https://github.com/abrizzz/MoNews-android \n\nAny issues or suggestions for new features should be requested here: https://github.com/abrizzz/MoNews-android/issues \n\nAkshay Brizmohun - 2016</string>
     <string name="empty_list">No item currently available</string>
+
+    <string name="github">Open GitHub Page</string>
+    <string name="about">About MoNews</string>
+    <string name="rate">Rate MoNews</string>
+    <string name="all_sources">All Sources</string>
 </resources>

@@ -153,6 +153,8 @@ public class MainActivity extends AppCompatActivity
                 colorPrimaryId = R.color.colorPrimary;
                 colorDarkId = R.color.colorPrimaryDark;
                 browserUrl = null;
+                setColor();
+                invalidateOptionsMenu();
                 updateList();
                 break;
             case R.id.nav_lexpress:
@@ -161,6 +163,8 @@ public class MainActivity extends AppCompatActivity
                 colorPrimaryId = R.color.lexpressPrimary;
                 colorDarkId = R.color.lexpressDark;
                 browserUrl=getString(R.string.lexpress_home);
+                setColor();
+                invalidateOptionsMenu();
                 updateList();
                 break;
             case R.id.nav_defi:
@@ -169,6 +173,8 @@ public class MainActivity extends AppCompatActivity
                 colorPrimaryId = R.color.defiPrimary;
                 colorDarkId = R.color.defiDark;
                 browserUrl = getString(R.string.defi_home);
+                setColor();
+                invalidateOptionsMenu();
                 updateList();
                 break;
             case R.id.nav_ion:
@@ -177,6 +183,8 @@ public class MainActivity extends AppCompatActivity
                 colorPrimaryId = R.color.ionPrimary;
                 colorDarkId = R.color.ionDark;
                 browserUrl = getString(R.string.ion_home);
+                setColor();
+                invalidateOptionsMenu();
                 updateList();
                 break;
             case R.id.nav_cinqplus:
@@ -185,6 +193,8 @@ public class MainActivity extends AppCompatActivity
                 colorDarkId = R.color.cinqplusDark;
                 this.getSupportActionBar().setTitle(getString(R.string.cinqplus));
                 browserUrl = getString(R.string.cinqplus_home);
+                setColor();
+                invalidateOptionsMenu();
                 updateList();
                 break;
             case R.id.nav_mauricien:
@@ -194,6 +204,8 @@ public class MainActivity extends AppCompatActivity
                 this.getSupportActionBar().setTitle(getString(R.string.mauricien));
                 openInBrowser.setVisible(true);
                 browserUrl = getString(R.string.mauricien_home);
+                setColor();
+                invalidateOptionsMenu();
                 updateList();
                 break;
             case R.id.nav_teleplus:
@@ -202,6 +214,8 @@ public class MainActivity extends AppCompatActivity
                 colorDarkId = R.color.teleplusDark;
                 this.getSupportActionBar().setTitle(getString(R.string.teleplus));
                 browserUrl = getString(R.string.teleplus_home);
+                setColor();
+                invalidateOptionsMenu();
                 updateList();
                 break;
             case R.id.nav_about:
@@ -213,6 +227,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_feedback:
                 openLinkIntent("https://play.google.com/store/apps/details?id=abrizzz.monews");
                 break;
+            case R.id.nav_github:
+                openLinkIntent("https://github.com/abrizzz/MoNews-android");
+                break;
             case R.id.nav_settings:
                 break;
             default:
@@ -220,8 +237,6 @@ public class MainActivity extends AppCompatActivity
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-        setColor();
-        invalidateOptionsMenu();
         return true;
     }
 
@@ -320,7 +335,7 @@ public class MainActivity extends AppCompatActivity
         infoDialog.show();
     }
 
-    //Intent to open Mauritius subreddit
+    //Intent to open a url passed to it
     public void openLinkIntent(String url)
     {
         Intent i = new Intent(Intent.ACTION_VIEW);
