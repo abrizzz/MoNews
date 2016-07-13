@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity
     private CircularProgressBar progressBar;
     private TextView connectionInfo;
     private MenuItem openInBrowser;
-    public boolean lexpressDone, defiDone, ionDone, teleplusDone, mauricienDone, cinqplusDone;
+    public boolean lexpressDone, defiDone, ionDone, mauricienDone, cinqplusDone;
     private String browserUrl;
     private int  colorPrimaryId, colorDarkId;
     @Override
@@ -208,16 +208,16 @@ public class MainActivity extends AppCompatActivity
                 invalidateOptionsMenu();
                 updateList();
                 break;
-            case R.id.nav_teleplus:
-                newsAdapter.src = NewsArrayAdapter.Sources.TELEPLUS;
-                colorPrimaryId = R.color.teleplusPrimary;
-                colorDarkId = R.color.teleplusDark;
-                this.getSupportActionBar().setTitle(getString(R.string.teleplus));
-                browserUrl = getString(R.string.teleplus_home);
-                setColor();
-                invalidateOptionsMenu();
-                updateList();
-                break;
+//            case R.id.nav_teleplus:
+//                newsAdapter.src = NewsArrayAdapter.Sources.TELEPLUS;
+//                colorPrimaryId = R.color.teleplusPrimary;
+//                colorDarkId = R.color.teleplusDark;
+//                this.getSupportActionBar().setTitle(getString(R.string.teleplus));
+//                browserUrl = getString(R.string.teleplus_home);
+//                setColor();
+//                invalidateOptionsMenu();
+//                updateList();
+//                break;
             case R.id.nav_about:
                 displayAbout();
                 break;
@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity
     }
     public void updateList()
     {
-        if(lexpressDone && defiDone && ionDone && teleplusDone && cinqplusDone && mauricienDone) {
+        if(lexpressDone && defiDone && ionDone && cinqplusDone && mauricienDone) {
             newsAdapter.updateAllList();
             newsAdapter.notifyDataSetChanged();
             progressBar.setVisibility(View.GONE);
@@ -308,9 +308,8 @@ public class MainActivity extends AppCompatActivity
             ParserIon pi = new ParserIon(this);
             pi.execute();
 
-            teleplusDone = false;
-            ParserTeleplus pt = new ParserTeleplus(this);
-            pt.execute();
+            //ParserTeleplus pt = new ParserTeleplus(this);
+            //pt.execute();
 
             cinqplusDone = false;
             ParserCinqplus pc = new ParserCinqplus(this);

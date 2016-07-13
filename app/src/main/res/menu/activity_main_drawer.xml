@@ -29,9 +29,9 @@
                     android:id="@+id/nav_cinqplus"
                     android:title="@string/cinqplus" />
 
-                <item
+                <!--item
                     android:id="@+id/nav_teleplus"
-                    android:title="@string/teleplus" />
+                    android:title="@string/teleplus" -->
 
             </group>
         </menu>

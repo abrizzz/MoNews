@@ -44,9 +44,8 @@ public class NewsItems {
         l.addAll(teleplusItems);
         l.addAll(mauricienItems);
         l.addAll(cinqplusItems);
-        Collections.sort(l,new DateCompare());
-        // Add L'Express at the end because it does not use proper pubDate tag
         l.addAll(lexpressItems);
+        Collections.sort(l,new DateCompare());
         return l;
     }
 

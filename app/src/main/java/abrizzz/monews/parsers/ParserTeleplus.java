@@ -149,7 +149,7 @@ public class ParserTeleplus extends AsyncTask<Void,Void,Void>{
         }catch(ConnectException e)
         {
             e.printStackTrace();
-            ((MainActivity)activity).teleplusDone = true;
+            //((MainActivity)activity).teleplusDone = true;
         }
         catch(XmlPullParserException e)
         {
@@ -162,7 +162,7 @@ public class ParserTeleplus extends AsyncTask<Void,Void,Void>{
         catch(Exception e)
         {
             e.printStackTrace();
-            ((MainActivity)activity).teleplusDone = true;
+            //((MainActivity)activity).teleplusDone = true;
         }
         return null;
     }
@@ -170,7 +170,7 @@ public class ParserTeleplus extends AsyncTask<Void,Void,Void>{
     @Override
     protected void onPostExecute(Void aVoid) {
         MainActivity ma = (MainActivity)activity;
-        ma.teleplusDone = true;
+        //ma.teleplusDone = true;
         ma.updateList();
         super.onPostExecute(aVoid);
     }

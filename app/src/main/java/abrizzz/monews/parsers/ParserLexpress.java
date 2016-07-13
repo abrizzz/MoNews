@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 
 import abrizzz.monews.R;
 import abrizzz.monews.model.NewsItem;
@@ -92,7 +93,7 @@ public class ParserLexpress extends AsyncTask<Void,Void,Void>{
                                     newItem.setCreator(tmp);
                                 }
                             } else if (xpp.getName().equals(datePublished)) {
-                                DateFormat df = new SimpleDateFormat(format);
+                                DateFormat df = new SimpleDateFormat(format, Locale.FRENCH);
                                 Date d = df.parse(tmp);
                                 GregorianCalendar cal = new GregorianCalendar();
                                 cal.setTime(d);
